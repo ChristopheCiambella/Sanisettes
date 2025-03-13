@@ -48,7 +48,7 @@ dependencies {
     implementation(project(":design-system"))
     implementation(project(":design-system-property"))
 
-    // DI
+    // Dependency injection
     implementation(libs.koinCore)
     implementation(libs.koinAndroid)
     implementation(libs.koinCompose)

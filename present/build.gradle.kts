@@ -38,6 +38,10 @@ dependencies {
     implementation(project(":design-system-property"))
     implementation(project(":domain"))
 
+    // Dependency injection
+    implementation(libs.koinCore)
+    implementation(libs.koinCompose)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
