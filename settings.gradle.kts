@@ -21,3 +21,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "My Application"
 include(":app")
+include(":domain")
+include(":data")
+include(":design-system")
+include(":design-system-property")
+include(":present")

@@ -41,6 +41,18 @@ android {
 
 dependencies {
 
+    // Clean architecture
+    implementation(project(":present"))
+    implementation(project(":domain"))
+    implementation(project(":data"))
+    implementation(project(":design-system"))
+    implementation(project(":design-system-property"))
+
+    // DI
+    implementation(libs.koinCore)
+    implementation(libs.koinAndroid)
+    implementation(libs.koinCompose)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
