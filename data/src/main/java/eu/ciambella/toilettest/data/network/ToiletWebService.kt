@@ -1,20 +1,20 @@
-package eu.ciambella.toilettest.data.api
+package eu.ciambella.toilettest.data.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class DataRatpWebService {
+class ToiletWebService {
 
     companion object {
         private const val BASE_URL = "https://data.ratp.fr/api/records/1.0/search/"
     }
 
-    val api: DataRatpApiService by lazy {
+    val api: ToiletApiService by lazy {
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BASE_URL)
             .build()
-            .create(DataRatpApiService::class.java)
+            .create(ToiletApiService::class.java)
     }
 
 }

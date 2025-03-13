@@ -1,4 +1,4 @@
-package eu.ciambella.toilettest.data.api.entity
+package eu.ciambella.toilettest.data.network.entity
 
 data class FieldsEntity(
     val acces_pmr: String,
