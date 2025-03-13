@@ -40,6 +40,11 @@ dependencies {
     // Dependency injection
     implementation(libs.koinCore)
 
+    // Retrofit
+    implementation(libs.retrofitCore)
+    implementation(libs.retrofitGsonConverter)
+    implementation(libs.okhttpCore)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

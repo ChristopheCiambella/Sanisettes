@@ -1,4 +1,4 @@
-package eu.ciambella.toilettest
+package eu.ciambella.toilettest.screen.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

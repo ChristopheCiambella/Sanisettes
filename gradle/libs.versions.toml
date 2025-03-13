@@ -11,6 +11,8 @@ composeBom = "2024.04.01"
 appcompat = "1.7.0"
 material = "1.12.0"
 koin = "4.0.0"
+retrofitVersion = "2.9.0"
+okhttpVersion = "4.11.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -29,6 +31,10 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+retrofitCore = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
+retrofitGsonConverter = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitVersion" }
+okhttpCore = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttpVersion" }
 
 koinCore = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koinAndroid = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
