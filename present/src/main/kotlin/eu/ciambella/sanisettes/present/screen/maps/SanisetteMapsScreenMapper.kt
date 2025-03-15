@@ -59,9 +59,6 @@ class SanisetteMapsScreenMapper(
     ) = scaffold(
         eventActionHandler = eventActionHandler,
         contentProperty = MapsContentProperty(
-            startLatitude = sanisettes[0].location.latitude,
-            startLongitude = sanisettes[0].location.longitude,
-            startZoom = 12f,
             markers = sanisettes.map {
                 MarkerProperty(
                     latitude = it.location.latitude,
