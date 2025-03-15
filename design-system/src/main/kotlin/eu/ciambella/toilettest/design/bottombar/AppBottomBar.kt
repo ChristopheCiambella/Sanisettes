@@ -1,4 +1,4 @@
-package eu.ciambella.design.bottombar
+package eu.ciambella.toilettest.design.bottombar
 
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme

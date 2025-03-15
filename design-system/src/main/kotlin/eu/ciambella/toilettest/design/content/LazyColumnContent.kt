@@ -1,10 +1,10 @@
-package eu.ciambella.design.content
+package eu.ciambella.toilettest.design.content
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import eu.ciambella.design.components.SanisetteCard
+import eu.ciambella.toilettest.design.components.SanisetteCard
 import eu.ciambella.design.toilettest.components.SanisetteCardProperty
 import eu.ciambella.design.toilettest.content.LazyColumnContentProperty
 

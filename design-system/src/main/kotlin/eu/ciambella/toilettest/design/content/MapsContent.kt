@@ -1,4 +1,4 @@
-package eu.ciambella.design.content
+package eu.ciambella.toilettest.design.content
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable

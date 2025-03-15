@@ -8,7 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import eu.ciambella.design.scaffold.MainScaffold
+import eu.ciambella.toilettest.design.scaffold.MainScaffold
 import org.koin.androidx.compose.koinViewModel
 
 @Composable

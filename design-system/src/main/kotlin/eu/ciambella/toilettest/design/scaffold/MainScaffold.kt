@@ -1,4 +1,4 @@
-package eu.ciambella.design.scaffold
+package eu.ciambella.toilettest.design.scaffold
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,8 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import eu.ciambella.design.bottombar.AppNavigationBar
-import eu.ciambella.design.content.IciContent
+import eu.ciambella.toilettest.design.bottombar.AppNavigationBar
+import eu.ciambella.toilettest.design.content.IciContent
 import eu.ciambella.design.toilettest.scaffold.ScaffoldProperty
 
 @OptIn(ExperimentalMaterial3Api::class)
