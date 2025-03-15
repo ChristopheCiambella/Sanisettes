@@ -9,20 +9,27 @@ import eu.ciambella.design.toilettest.scaffold.ScaffoldProperty
 import eu.ciambella.toilettest.domain.toilet.model.Toilet
 import eu.ciambella.toilettest.present.common.mapper.NavigationBarPropertyMapper
 import eu.ciambella.toilettest.present.common.mapper.RouteNavigationBarProperty
-import eu.ciambella.toilettest.present.common.mapper.ScaffoldPropertyMapper
+import eu.ciambella.toilettest.present.common.navigation.EventActionHandler
 
 class ToiletListScreenMapper(
     private val navigationBarPropertyMapper: NavigationBarPropertyMapper,
 ) {
 
     private fun scaffold(
-        contentProperty: ContentProperty
+        contentProperty: ContentProperty,
+        eventActionHandler: EventActionHandler,
     ) = ScaffoldProperty(
         contentProperty = contentProperty,
-        navigationBarProperty = navigationBarPropertyMapper.main(RouteNavigationBarProperty.LIST),
+        navigationBarProperty = navigationBarPropertyMapper.main(
+            selectedRoute = RouteNavigationBarProperty.LIST,
+            eventActionHandler = eventActionHandler
+        ),
     )
 
-    fun loading(): ScaffoldProperty = scaffold(
+    fun loading(
+        eventActionHandler: EventActionHandler
+    ): ScaffoldProperty = scaffold(
+        eventActionHandler = eventActionHandler,
         contentProperty = LazyColumnContentProperty(
             items = mutableListOf(ShimmerProperty)
         )
@@ -30,13 +37,14 @@ class ToiletListScreenMapper(
 
     fun map(
         state: ToiletListState,
+        eventActionHandler: EventActionHandler,
     ): ScaffoldProperty {
         if (state.toilets == null) {
-            return loading()
+            return loading(eventActionHandler)
         }
         return state.toilets.fold(
             onSuccess = {
-                mapSuccess(it)
+                mapSuccess(it, eventActionHandler)
             },
             onFailure = {
                 TODO()
@@ -44,14 +52,18 @@ class ToiletListScreenMapper(
         )
     }
 
-    private fun mapSuccess(toilets: List<Toilet>) = scaffold(
+    private fun mapSuccess(
+        toilets: List<Toilet>,
+        eventActionHandler: EventActionHandler,
+    ) = scaffold(
+        eventActionHandler = eventActionHandler,
         contentProperty = LazyColumnContentProperty(
             items = mapScreen(toilets)
         )
     )
 
     private fun mapScreen(
-        toilets: List<Toilet>
+        toilets: List<Toilet>,
     ): List<Property> = mutableListOf<Property>().apply {
         toilets.forEach {
             add(ToiletProperty(it.address))

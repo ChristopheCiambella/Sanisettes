@@ -5,6 +5,9 @@ import androidx.lifecycle.viewModelScope
 import eu.ciambella.design.toilettest.scaffold.ScaffoldProperty
 import eu.ciambella.toilettest.domain.toilet.usecase.GetToiletUseCase
 import eu.ciambella.toilettest.domain.utils.CoroutineDispatcherProvider
+import eu.ciambella.toilettest.present.common.navigation.Action
+import eu.ciambella.toilettest.present.common.navigation.ActionHandler
+import eu.ciambella.toilettest.present.common.navigation.EventActionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +20,8 @@ class ToiletListViewModel(
     private val listScreenMapper: ToiletListScreenMapper,
     private val getToiletUseCase: GetToiletUseCase,
     private val dispatcherProvider: CoroutineDispatcherProvider,
-) : ViewModel() {
+    private val actionHandler: ActionHandler,
+) : ViewModel(), EventActionHandler {
 
     private val model = MutableStateFlow(
         ToiletListState()
@@ -28,13 +32,14 @@ class ToiletListViewModel(
     }.stateIn(
         viewModelScope,
         SharingStarted.Eagerly,
-        listScreenMapper.loading()
+        listScreenMapper.loading(this)
     )
 
     private fun mapToUI(
         state: ToiletListState
     ): ScaffoldProperty = listScreenMapper.map(
         state = state,
+        eventActionHandler = this,
     )
 
     fun create() {
@@ -45,6 +50,10 @@ class ToiletListViewModel(
                 )
             }
         }
+    }
+
+    override fun handle(action: Action) {
+        actionHandler.handle(action)
     }
 
 }
