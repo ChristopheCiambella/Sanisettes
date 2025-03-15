@@ -12,7 +12,6 @@ import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
 import eu.ciambella.toilettest.domain.location.LocationProvider
 import eu.ciambella.toilettest.domain.location.model.Location
-import eu.ciambella.toilettest.domain.location.model.LocationResult
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -25,7 +24,7 @@ class LocationProviderImpl(
 
     private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
-    override fun hasLocationPermission(): Boolean =
+    private fun hasLocationPermission(): Boolean =
         ContextCompat.checkSelfPermission(
             context, Manifest.permission.ACCESS_FINE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED ||
@@ -39,11 +38,11 @@ class LocationProviderImpl(
     @SuppressLint("MissingPermission")
     override suspend fun getCurrentLocation() = suspendCoroutine { continuation ->
         if (!hasLocationPermission()) {
-            continuation.resume(LocationResult.NeedPermissions)
+            continuation.resume(null)
             return@suspendCoroutine
         }
         if (!isLocationEnabled()) {
-            continuation.resume(LocationResult.Disabled)
+            continuation.resume(null)
             return@suspendCoroutine
         }
         fusedLocationClient.getCurrentLocation(
@@ -51,11 +50,9 @@ class LocationProviderImpl(
             CancellationTokenSource().token
         ).addOnCompleteListener { location ->
             continuation.resume(
-                LocationResult.Success(
-                    Location(
-                        latitude = location.result.latitude,
-                        longitude = location.result.longitude
-                    )
+                Location(
+                    latitude = location.result.latitude,
+                    longitude = location.result.longitude
                 )
             )
         }

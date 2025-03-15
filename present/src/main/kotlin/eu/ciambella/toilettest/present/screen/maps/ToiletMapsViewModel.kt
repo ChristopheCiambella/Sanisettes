@@ -3,7 +3,7 @@ package eu.ciambella.toilettest.present.screen.maps
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import eu.ciambella.design.toilettest.scaffold.ScaffoldProperty
-import eu.ciambella.toilettest.domain.toilet.usecase.GetToiletUseCase
+import eu.ciambella.toilettest.domain.toilet.usecase.GetSanisettesUseCase
 import eu.ciambella.toilettest.domain.utils.CoroutineDispatcherProvider
 import eu.ciambella.toilettest.present.common.navigation.Action
 import eu.ciambella.toilettest.present.common.navigation.ActionHandler
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class ToiletMapsViewModel(
     private val listScreenMapper: ToiletMapsScreenMapper,
-    private val getToiletUseCase: GetToiletUseCase,
+    private val getToiletUseCase: GetSanisettesUseCase,
     private val dispatcherProvider: CoroutineDispatcherProvider,
     private val actionHandler: ActionHandler,
 ) : ViewModel(), EventActionHandler {

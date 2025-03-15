@@ -12,7 +12,6 @@ class SanisetteCardMapper {
         address = toilet.address,
         openingHours = toilet.openingHours,
         isPmr = toilet.isPmr,
-        isBaby = toilet.isBaby,
         distance = toilet.distance,
         onClick = onClick
     )

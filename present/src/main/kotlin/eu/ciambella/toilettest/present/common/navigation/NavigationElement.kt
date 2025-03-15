@@ -6,5 +6,4 @@ sealed class NavigationElement {
     data class ToiletNavigation(
         val address: String
     ) : NavigationElement()
-    data object AppSettings : NavigationElement()
 }

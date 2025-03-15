@@ -20,7 +20,6 @@ class NavigationConsumer(
             is NavigationElement.ToiletNavigation -> ExternalIntentUtils.startNavigationActivity(
                 context, navigationElement.address
             )
-            is NavigationElement.AppSettings -> ExternalIntentUtils.openAppSettings(context)
         }
     }
 

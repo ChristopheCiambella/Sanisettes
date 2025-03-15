@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
-import androidx.compose.material.icons.filled.BabyChangingStation
 import androidx.compose.material.icons.filled.Navigation
 import androidx.compose.material.icons.filled.WheelchairPickup
 import androidx.compose.material3.Card
@@ -55,7 +54,7 @@ fun SanisetteCard(
                 Text(
                     text = property.address,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 22.sp,
+                    fontSize = 20.sp,
                     modifier = Modifier.padding(
                         bottom = 8.dp
                     )
@@ -111,16 +110,6 @@ fun SanisetteCard(
                             )
                             .size(48.dp)
                     )
-                    Icon(
-                        imageVector = Icons.Default.BabyChangingStation,
-                        contentDescription = "Accessible Bébé",
-                        tint = if (property.isBaby) Color.Green else Color.Red,
-                        modifier = Modifier
-                            .padding(
-                                start = 8.dp
-                            )
-                            .size(48.dp)
-                    )
                 }
             }
         }
@@ -136,7 +125,6 @@ fun ToiletPreview() {
             openingHours = "6 h - 1 h",
             distance = "360m",
             isPmr = true,
-            isBaby = false,
             onClick = {}
         )
     )

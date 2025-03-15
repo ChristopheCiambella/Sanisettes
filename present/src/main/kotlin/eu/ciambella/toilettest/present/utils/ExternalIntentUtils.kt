@@ -8,15 +8,6 @@ import android.provider.Settings
 
 object ExternalIntentUtils {
 
-    fun openAppSettings(
-        context: Context
-    ) {
-        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-        val uri = Uri.fromParts("package", context.packageName, null)
-        intent.setData(uri)
-        context.startActivity(intent)
-    }
-
     fun startNavigationActivity(
         context: Context,
         address: String

@@ -4,7 +4,6 @@ import eu.ciambella.toilettest.data.network.entity.ResultEntity
 import eu.ciambella.toilettest.data.network.response.SanisettesResponse
 import eu.ciambella.toilettest.data.utils.DistanceUtils
 import eu.ciambella.toilettest.domain.location.model.Location
-import eu.ciambella.toilettest.domain.location.model.LocationResult
 import eu.ciambella.toilettest.domain.toilet.model.Sanisette
 
 class ToiletResponseMapper {
@@ -17,14 +16,14 @@ class ToiletResponseMapper {
 
     fun map(
         response: SanisettesResponse,
-        locationResult: LocationResult,
+        currentLocation: Location?,
     ): List<Sanisette> = response.results.map {
-        mapSanisette(it, locationResult)
+        mapSanisette(it, currentLocation)
     }
 
     private fun mapSanisette(
         result: ResultEntity,
-        locationResult: LocationResult,
+        currentLocation: Location?,
     ): Sanisette {
         val location = Location(
             latitude = result.geoPoint2d.lat,
@@ -33,11 +32,10 @@ class ToiletResponseMapper {
         return Sanisette(
             address = formatAddress(result.adresse),
             isPmr = result.accesPmr == TRUE,
-            isBaby = result.accesBebe == TRUE,
             openingHours = result.horaire,
             location = location,
             distance = calcDistance(
-                currentLocationResult = locationResult,
+                currentLocation = currentLocation,
                 sanisetteLocation = location
             )
         )
@@ -59,17 +57,17 @@ class ToiletResponseMapper {
     }
 
     private fun calcDistance(
-        currentLocationResult: LocationResult,
+        currentLocation: Location?,
         sanisetteLocation: Location,
-    ): String = when (currentLocationResult) {
-        is LocationResult.Success -> {
-            val distance = DistanceUtils.calcHaversineDistance(
-                locationA = currentLocationResult.location,
-                locationB = sanisetteLocation
-            )
-            formatDistance(distance)
+    ): String {
+        if (currentLocation == null) {
+            return UNAVAILABLE
         }
-        else -> UNAVAILABLE
+        val distance = DistanceUtils.calcHaversineDistance(
+            locationA = currentLocation,
+            locationB = sanisetteLocation
+        )
+        return formatDistance(distance)
     }
 
 }
