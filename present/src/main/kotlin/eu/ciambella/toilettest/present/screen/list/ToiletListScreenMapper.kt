@@ -5,7 +5,7 @@ import eu.ciambella.design.toilettest.components.ShimmerProperty
 import eu.ciambella.design.toilettest.content.ContentProperty
 import eu.ciambella.design.toilettest.content.LazyColumnContentProperty
 import eu.ciambella.design.toilettest.scaffold.ScaffoldProperty
-import eu.ciambella.toilettest.domain.toilet.model.Toilet
+import eu.ciambella.toilettest.domain.toilet.model.Sanisette
 import eu.ciambella.toilettest.present.common.mapper.NavigationBarPropertyMapper
 import eu.ciambella.toilettest.present.common.mapper.RouteNavigationBarProperty
 import eu.ciambella.toilettest.present.common.mapper.ToiletCardMapper
@@ -54,7 +54,7 @@ class ToiletListScreenMapper(
     }
 
     private fun mapSuccess(
-        toilets: List<Toilet>,
+        toilets: List<Sanisette>,
         eventActionHandler: EventActionHandler,
     ) = scaffold(
         eventActionHandler = eventActionHandler,
@@ -64,7 +64,7 @@ class ToiletListScreenMapper(
     )
 
     private fun mapScreen(
-        toilets: List<Toilet>,
+        toilets: List<Sanisette>,
     ): List<Property> = mutableListOf<Property>().apply {
         toilets.forEach {
             add(toiletCardMapper.map(it))

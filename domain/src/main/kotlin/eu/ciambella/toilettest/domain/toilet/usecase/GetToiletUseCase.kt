@@ -1,14 +1,14 @@
 package eu.ciambella.toilettest.domain.toilet.usecase
 
-import eu.ciambella.toilettest.domain.toilet.ToiletRepository
-import eu.ciambella.toilettest.domain.toilet.model.Toilet
+import eu.ciambella.toilettest.domain.toilet.SanisettesRepository
+import eu.ciambella.toilettest.domain.toilet.model.Sanisette
 
 class GetToiletUseCase(
-    private val toiletRepository: ToiletRepository
+    private val toiletRepository: SanisettesRepository
 ) {
 
-    suspend fun invoke(): Result<List<Toilet>> = runCatching {
-        toiletRepository.getToilets()
+    suspend fun invoke(): Result<List<Sanisette>> = runCatching {
+        toiletRepository.getSanisettes()
     }
 
 }
