@@ -20,7 +20,7 @@ fun MapsContent(
     modifier: Modifier = Modifier,
 ) {
     val cameraPositionState = rememberCameraPositionState()
-    LaunchedEffect(property.markers) {
+    LaunchedEffect(Unit) {
         if (property.markers.isNotEmpty()) {
             val builder = LatLngBounds.Builder()
             property.markers.forEach {

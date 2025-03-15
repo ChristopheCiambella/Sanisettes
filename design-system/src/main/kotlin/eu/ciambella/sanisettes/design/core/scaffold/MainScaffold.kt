@@ -9,7 +9,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import eu.ciambella.sanisettes.design.core.bottombar.AppNavigationBar
-import eu.ciambella.sanisettes.design.core.content.IciContent
+import eu.ciambella.sanisettes.design.core.bottomsheet.BottomSheet
+import eu.ciambella.sanisettes.design.core.content.Content
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,7 +30,12 @@ fun MainScaffold(
             )
         },
         content = {
-            IciContent(
+            property.bottomSheetContentProperty?.also { bottomSheet ->
+                BottomSheet(
+                    property = bottomSheet,
+                )
+            }
+            Content(
                 property = property.contentProperty,
                 modifier = Modifier.padding(it)
             )

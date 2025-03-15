@@ -11,6 +11,6 @@ val uiMapperModule = module {
     single { ScaffoldPropertyMapper() }
     single { NavigationBarPropertyMapper() }
     single { SanisetteListScreenMapper(get(), get()) }
-    single { SanisetteMapsScreenMapper(get()) }
+    single { SanisetteMapsScreenMapper(get(), get()) }
     single { SanisetteCardMapper() }
 }

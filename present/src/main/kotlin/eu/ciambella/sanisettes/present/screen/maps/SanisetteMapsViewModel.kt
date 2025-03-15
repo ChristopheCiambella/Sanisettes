@@ -3,6 +3,7 @@ package eu.ciambella.sanisettes.present.screen.maps
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import eu.ciambella.sanisettes.design.core.scaffold.ScaffoldProperty
+import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
 import eu.ciambella.sanisettes.domain.sanisette.usecase.GetSanisettesUseCase
 import eu.ciambella.sanisettes.domain.utils.CoroutineDispatcherProvider
 import eu.ciambella.sanisettes.present.common.navigation.Action
@@ -40,6 +41,8 @@ class SanisetteMapsViewModel(
     ): ScaffoldProperty = listScreenMapper.map(
         eventActionHandler = this,
         state = state,
+        onSanisetteClicked = ::onSanisetteClicked,
+        onBottomSheetDismiss = ::onBottomSheetDismiss
     )
 
     fun create() {
@@ -49,6 +52,22 @@ class SanisetteMapsViewModel(
                     sanisettes = getToiletUseCase.invoke()
                 )
             }
+        }
+    }
+
+    private fun onSanisetteClicked(sanisette: Sanisette) {
+        model.update {
+            it.copy(
+                sanisetteDetails = sanisette
+            )
+        }
+    }
+
+    private fun onBottomSheetDismiss() {
+        model.update {
+            it.copy(
+                sanisetteDetails = null
+            )
         }
     }
 
