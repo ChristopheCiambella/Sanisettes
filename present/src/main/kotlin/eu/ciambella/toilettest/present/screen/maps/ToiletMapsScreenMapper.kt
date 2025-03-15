@@ -1,10 +1,9 @@
 package eu.ciambella.toilettest.present.screen.maps
 
-import eu.ciambella.design.toilettest.components.Property
 import eu.ciambella.design.toilettest.components.ShimmerProperty
-import eu.ciambella.design.toilettest.components.ToiletCardProperty
 import eu.ciambella.design.toilettest.content.ContentProperty
 import eu.ciambella.design.toilettest.content.LazyColumnContentProperty
+import eu.ciambella.design.toilettest.content.MapsContentProperty
 import eu.ciambella.design.toilettest.scaffold.ScaffoldProperty
 import eu.ciambella.toilettest.domain.toilet.model.Toilet
 import eu.ciambella.toilettest.present.common.mapper.NavigationBarPropertyMapper
@@ -57,16 +56,12 @@ class ToiletMapsScreenMapper(
         eventActionHandler: EventActionHandler,
     ) = scaffold(
         eventActionHandler = eventActionHandler,
-        contentProperty = LazyColumnContentProperty(
-            items = mapScreen(toilets)
+        contentProperty = MapsContentProperty(
+            startLatitude = toilets[0].latitude,
+            startLongitude = toilets[0].longitude,
+            startZoom = 12f,
         )
     )
-
-    private fun mapScreen(
-        toilets: List<Toilet>
-    ): List<Property> = mutableListOf<Property>().apply {
-
-    }
 
 }
 
