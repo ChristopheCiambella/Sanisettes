@@ -11,6 +11,8 @@ data class ResultEntity(
     val horaire: String,
     @SerialName("acces_pmr")
     val accesPmr: String,
+    @SerialName("relais_bebe")
+    val accesBebe: String?,
     @SerialName("geo_point_2d")
     val geoPoint2d: GeometryEntity
 )

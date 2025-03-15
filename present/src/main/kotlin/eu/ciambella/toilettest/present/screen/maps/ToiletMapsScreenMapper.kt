@@ -2,7 +2,7 @@ package eu.ciambella.toilettest.present.screen.maps
 
 import eu.ciambella.design.toilettest.components.Property
 import eu.ciambella.design.toilettest.components.ShimmerProperty
-import eu.ciambella.design.toilettest.components.ToiletProperty
+import eu.ciambella.design.toilettest.components.ToiletCardProperty
 import eu.ciambella.design.toilettest.content.ContentProperty
 import eu.ciambella.design.toilettest.content.LazyColumnContentProperty
 import eu.ciambella.design.toilettest.scaffold.ScaffoldProperty
@@ -65,9 +65,7 @@ class ToiletMapsScreenMapper(
     private fun mapScreen(
         toilets: List<Toilet>
     ): List<Property> = mutableListOf<Property>().apply {
-        toilets.forEach {
-            add(ToiletProperty(it.address))
-        }
+
     }
 
 }

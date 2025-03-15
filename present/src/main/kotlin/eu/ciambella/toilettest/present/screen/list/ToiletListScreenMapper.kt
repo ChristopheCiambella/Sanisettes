@@ -2,17 +2,18 @@ package eu.ciambella.toilettest.present.screen.list
 
 import eu.ciambella.design.toilettest.components.Property
 import eu.ciambella.design.toilettest.components.ShimmerProperty
-import eu.ciambella.design.toilettest.components.ToiletProperty
 import eu.ciambella.design.toilettest.content.ContentProperty
 import eu.ciambella.design.toilettest.content.LazyColumnContentProperty
 import eu.ciambella.design.toilettest.scaffold.ScaffoldProperty
 import eu.ciambella.toilettest.domain.toilet.model.Toilet
 import eu.ciambella.toilettest.present.common.mapper.NavigationBarPropertyMapper
 import eu.ciambella.toilettest.present.common.mapper.RouteNavigationBarProperty
+import eu.ciambella.toilettest.present.common.mapper.ToiletCardMapper
 import eu.ciambella.toilettest.present.common.navigation.EventActionHandler
 
 class ToiletListScreenMapper(
     private val navigationBarPropertyMapper: NavigationBarPropertyMapper,
+    private val toiletCardMapper: ToiletCardMapper,
 ) {
 
     private fun scaffold(
@@ -27,7 +28,7 @@ class ToiletListScreenMapper(
     )
 
     fun loading(
-        eventActionHandler: EventActionHandler
+        eventActionHandler: EventActionHandler,
     ): ScaffoldProperty = scaffold(
         eventActionHandler = eventActionHandler,
         contentProperty = LazyColumnContentProperty(
@@ -66,7 +67,7 @@ class ToiletListScreenMapper(
         toilets: List<Toilet>,
     ): List<Property> = mutableListOf<Property>().apply {
         toilets.forEach {
-            add(ToiletProperty(it.address))
+            add(toiletCardMapper.map(it))
         }
     }
 
