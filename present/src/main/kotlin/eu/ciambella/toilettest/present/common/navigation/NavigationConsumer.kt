@@ -1,7 +1,6 @@
-package eu.ciambella.toilettest.navigation
+package eu.ciambella.toilettest.present.common.navigation
 
 import androidx.navigation.NavHostController
-import eu.ciambella.toilettest.present.common.navigation.NavigationElement
 import eu.ciambella.toilettest.present.screen.list.navigateToToiletList
 import eu.ciambella.toilettest.present.screen.maps.navigateToToiletMaps
 
