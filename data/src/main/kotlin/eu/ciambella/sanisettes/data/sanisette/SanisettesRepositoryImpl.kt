@@ -9,5 +9,4 @@ class SanisettesRepositoryImpl(
 ) : SanisettesRepository {
 
     override suspend fun getSanisettes(): List<Sanisette> = toiletDatastore.getSanisettes()
-
 }

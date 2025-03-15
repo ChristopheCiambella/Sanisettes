@@ -20,5 +20,4 @@ object ExternalIntentUtils {
             context.startActivity(intent)
         }
     }
-
 }

@@ -22,5 +22,4 @@ class MainNavigator {
             SingleEvent(navigationElement)
         }
     }
-
 }

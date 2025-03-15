@@ -69,5 +69,4 @@ class SanisetteResponseMapper {
         )
         return formatDistance(distance)
     }
-
 }

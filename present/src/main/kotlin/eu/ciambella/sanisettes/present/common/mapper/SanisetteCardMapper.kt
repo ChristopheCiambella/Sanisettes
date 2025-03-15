@@ -15,5 +15,4 @@ class SanisetteCardMapper {
         distance = sanisette.distance,
         onClick = onClick
     )
-
 }

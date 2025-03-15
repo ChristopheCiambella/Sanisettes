@@ -132,7 +132,6 @@ fun SanisetteDistance(label: String) {
     }
 }
 
-
 @Preview
 @Composable
 fun SanisetteCardPreview() {

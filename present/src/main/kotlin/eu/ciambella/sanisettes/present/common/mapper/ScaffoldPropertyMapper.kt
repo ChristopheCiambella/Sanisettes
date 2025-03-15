@@ -13,5 +13,4 @@ class ScaffoldPropertyMapper {
         contentProperty = contentProperty,
         navigationBarProperty = navigationBarProperty,
     )
-
 }

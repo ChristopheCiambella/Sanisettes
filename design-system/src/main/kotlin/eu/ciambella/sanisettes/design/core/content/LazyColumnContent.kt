@@ -6,9 +6,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import eu.ciambella.sanisettes.design.components.SanisetteCard
 import eu.ciambella.sanisettes.design.components.SanisetteCardProperty
-import eu.ciambella.sanisettes.design.components.SanisetteCardShimmerProperty
-import eu.ciambella.sanisettes.design.core.content.LazyColumnContentProperty
 import eu.ciambella.sanisettes.design.components.SanisetteCardShimmer
+import eu.ciambella.sanisettes.design.components.SanisetteCardShimmerProperty
 
 @Composable
 fun LazyColumnContent(

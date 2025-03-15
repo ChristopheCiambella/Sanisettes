@@ -1,8 +1,8 @@
 package eu.ciambella.sanisettes.present.common.mapper
 
+import eu.ciambella.sanisettes.design.R
 import eu.ciambella.sanisettes.design.core.bottombar.NavigationBarItemProperty
 import eu.ciambella.sanisettes.design.core.bottombar.NavigationBarProperty
-import eu.ciambella.sanisettes.design.R
 import eu.ciambella.sanisettes.present.common.navigation.Action
 import eu.ciambella.sanisettes.present.common.navigation.EventActionHandler
 import eu.ciambella.sanisettes.present.common.navigation.NavigationElement
@@ -53,5 +53,4 @@ class NavigationBarPropertyMapper {
             )
         }
     )
-
 }

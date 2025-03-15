@@ -16,5 +16,4 @@ class SanisettesDatastore(
         val currentLocation = locationProvider.getCurrentLocation()
         return toiletResponseMapper.map(response, currentLocation)
     }
-
 }

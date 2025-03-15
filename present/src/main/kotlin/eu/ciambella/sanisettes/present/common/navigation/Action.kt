@@ -7,5 +7,4 @@ sealed interface Action {
     ) : Action
 
     data object None : Action
-
 }

@@ -4,16 +4,19 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.secrets)
+    alias(libs.plugins.detekt)
 }
 
 android {
     namespace = "eu.ciambella.sanisettes"
-    compileSdk = 35
+    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "eu.ciambella.sanisettes"
-        minSdk = 24
-        targetSdk = 35
+
+        minSdk = libs.versions.android.minSdk.get().toInt()
+        targetSdk = libs.versions.android.compileSdk.get().toInt()
+
         versionCode = 1
         versionName = "1.0"
 

@@ -61,6 +61,4 @@ class SanisetteMapsScreenMapper(
             startZoom = 12f,
         )
     )
-
 }
-

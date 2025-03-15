@@ -18,9 +18,9 @@ class NavigationConsumer(
             NavigationElement.SanisetteList -> navHostController.navigateToSanisetteList()
             NavigationElement.SanisetteMaps -> navHostController.navigateToSanisetteMaps()
             is NavigationElement.SanisetteNavigation -> ExternalIntentUtils.startNavigationActivity(
-                context, navigationElement.address
+                context = context,
+                address = navigationElement.address
             )
         }
     }
-
 }

@@ -10,5 +10,4 @@ class GetSanisettesUseCase(
     suspend fun invoke(): Result<List<Sanisette>> = runCatching {
         sanisettesRepository.getSanisettes()
     }
-
 }

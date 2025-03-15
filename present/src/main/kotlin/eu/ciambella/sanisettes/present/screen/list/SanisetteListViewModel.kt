@@ -63,5 +63,4 @@ class SanisetteListViewModel(
     override fun handle(action: Action) {
         actionHandler.handle(action)
     }
-
 }
