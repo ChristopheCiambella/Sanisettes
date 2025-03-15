@@ -1,5 +1,6 @@
 package eu.ciambella.design.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,21 +20,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import eu.ciambella.design.toilettest.components.ToiletCardProperty
+import eu.ciambella.design.toilettest.components.SanisetteCardProperty
 
 @Composable
-fun ToiletCard(
-    property: ToiletCardProperty,
+fun SanisetteCard(
+    property: SanisetteCardProperty,
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .clickable(onClick = property.onClick),
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
@@ -126,13 +130,14 @@ fun ToiletCard(
 @Preview
 @Composable
 fun ToiletPreview() {
-    ToiletCard(
-        property = ToiletCardProperty(
+    SanisetteCard(
+        property = SanisetteCardProperty(
             address = "104 avenue de paris",
             openingHours = "6 h - 1 h",
             distance = "360m",
             isPmr = true,
-            isBaby = false
+            isBaby = false,
+            onClick = {}
         )
     )
 }

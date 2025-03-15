@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 val appModule = module {
     single { CoroutineDispatcherProvider() }
-    single { NavigationConsumer() }
+    single { NavigationConsumer(get()) }
     single { MainNavigator() }
     single { ActionHandler(get()) }
     single<LocationProvider> { LocationProviderImpl(get()) }

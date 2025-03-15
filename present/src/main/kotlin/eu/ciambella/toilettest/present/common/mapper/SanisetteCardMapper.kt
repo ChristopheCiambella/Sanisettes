@@ -1,18 +1,20 @@
 package eu.ciambella.toilettest.present.common.mapper
 
-import eu.ciambella.design.toilettest.components.ToiletCardProperty
+import eu.ciambella.design.toilettest.components.SanisetteCardProperty
 import eu.ciambella.toilettest.domain.toilet.model.Sanisette
 
-class ToiletCardMapper {
+class SanisetteCardMapper {
 
     fun map(
         toilet: Sanisette,
-    ) = ToiletCardProperty(
+        onClick: () -> Unit,
+    ) = SanisetteCardProperty(
         address = toilet.address,
         openingHours = toilet.openingHours,
         isPmr = toilet.isPmr,
         isBaby = toilet.isBaby,
-        distance = toilet.distance
+        distance = toilet.distance,
+        onClick = onClick
     )
 
 }

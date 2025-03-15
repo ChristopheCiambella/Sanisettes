@@ -8,12 +8,14 @@ import eu.ciambella.design.toilettest.scaffold.ScaffoldProperty
 import eu.ciambella.toilettest.domain.toilet.model.Sanisette
 import eu.ciambella.toilettest.present.common.mapper.NavigationBarPropertyMapper
 import eu.ciambella.toilettest.present.common.mapper.RouteNavigationBarProperty
-import eu.ciambella.toilettest.present.common.mapper.ToiletCardMapper
+import eu.ciambella.toilettest.present.common.mapper.SanisetteCardMapper
+import eu.ciambella.toilettest.present.common.navigation.Action
 import eu.ciambella.toilettest.present.common.navigation.EventActionHandler
+import eu.ciambella.toilettest.present.common.navigation.NavigationElement
 
 class ToiletListScreenMapper(
     private val navigationBarPropertyMapper: NavigationBarPropertyMapper,
-    private val toiletCardMapper: ToiletCardMapper,
+    private val toiletCardMapper: SanisetteCardMapper,
 ) {
 
     private fun scaffold(
@@ -59,16 +61,27 @@ class ToiletListScreenMapper(
     ) = scaffold(
         eventActionHandler = eventActionHandler,
         contentProperty = LazyColumnContentProperty(
-            items = mapScreen(toilets)
+            items = mapScreen(toilets, eventActionHandler)
         )
     )
 
     private fun mapScreen(
         toilets: List<Sanisette>,
+        eventActionHandler: EventActionHandler,
     ): List<Property> = mutableListOf<Property>().apply {
-        toilets.forEach {
-            add(toiletCardMapper.map(it))
-        }
+        addAll(
+            toilets.map {
+                toiletCardMapper.map(it) {
+                    eventActionHandler.handle(
+                        Action.Navigation(
+                            navigationElement = NavigationElement.ToiletNavigation(
+                                address = it.address
+                            )
+                        )
+                    )
+                }
+            }
+        )
     }
 
 }
