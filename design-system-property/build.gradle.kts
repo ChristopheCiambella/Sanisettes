@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "eu.ciambella.design"
+    namespace = "eu.ciambella.toilettest.design.property"
     compileSdk = 35
 
     defaultConfig {

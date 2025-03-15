@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -38,12 +39,16 @@ dependencies {
     implementation(project(":domain"))
 
     // Dependency injection
-    implementation(libs.koinCore)
+    implementation(libs.koin.core)
+
+    // Kotlin
+    implementation(libs.kotlinx.serialization.json)
 
     // Retrofit
-    implementation(libs.retrofitCore)
-    implementation(libs.retrofitGsonConverter)
-    implementation(libs.okhttpCore)
+    implementation(libs.retrofit2)
+    implementation(libs.retrofit2.json)
+    implementation(libs.okhttp3)
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
