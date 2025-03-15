@@ -5,20 +5,20 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
-class ToiletWebService(
+class SanisettesParisWebService(
     private val json: Json
 ) {
 
     companion object {
-        private const val BASE_URL = "https://data.ratp.fr/api/records/1.0/search/"
+        private const val BASE_URL = "https://data.ratp.fr/api/explore/v2.1/catalog/datasets/sanisettesparis2011/"
     }
 
-    val api: ToiletApiService by lazy {
+    val api: SanisettesParisApiService by lazy {
         Retrofit.Builder()
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .baseUrl(BASE_URL)
             .build()
-            .create(ToiletApiService::class.java)
+            .create(SanisettesParisApiService::class.java)
     }
 
 }

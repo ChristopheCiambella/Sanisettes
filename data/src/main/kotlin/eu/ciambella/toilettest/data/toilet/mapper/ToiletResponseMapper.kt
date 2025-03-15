@@ -1,22 +1,23 @@
 package eu.ciambella.toilettest.data.toilet.mapper
 
-import eu.ciambella.toilettest.data.network.response.ToiletResponse
+import eu.ciambella.toilettest.data.network.response.SanisettesResponse
 import eu.ciambella.toilettest.domain.toilet.model.Toilet
 
 class ToiletResponseMapper {
 
     companion object {
-        private const val LONGITUDE_INDEX = 0
-        private const val LATITUDE_INDEX = 1
+        private const val TRUE = "Oui"
     }
 
     fun mapToToilet(
-        response: ToiletResponse
-    ): List<Toilet> = response.records.map {
+        response: SanisettesResponse
+    ): List<Toilet> = response.results.map {
         Toilet(
-            address = it.fields.adresse,
-            longitude = it.geometry.coordinates[LONGITUDE_INDEX],
-            latitude = it.geometry.coordinates[LATITUDE_INDEX]
+            address = it.adresse,
+            isPmr = it.accesPmr == TRUE,
+            openingHours = it.horaire,
+            longitude = it.geoPoint2d.lon,
+            latitude = it.geoPoint2d.lat,
         )
     }
 
