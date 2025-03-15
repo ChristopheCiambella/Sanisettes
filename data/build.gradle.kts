@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "eu.ciambella.toilettest.data"
+    namespace = "eu.ciambella.sanisettes.data"
     compileSdk = 35
 
     defaultConfig {

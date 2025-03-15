@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "eu.ciambella.toilettest.present"
+    namespace = "eu.ciambella.sanisettes.present"
     compileSdk = 35
 
     defaultConfig {

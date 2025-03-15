@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "eu.ciambella.toilettest"
+    namespace = "eu.ciambella.sanisettes"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "eu.ciambella.toilettest"
+        applicationId = "eu.ciambella.sanisettes"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

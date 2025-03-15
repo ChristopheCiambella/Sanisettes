@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "eu.ciambella.toilettest.design"
+    namespace = "eu.ciambella.sanisettes.design"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
