@@ -21,6 +21,7 @@ navigationVersion = "2.8.9"
 googleMapsVersion = "6.4.1"
 secrets = "2.0.1"
 playServicesLocation = "21.3.0"
+accompanistVersion = "0.31.5-beta"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -52,6 +53,7 @@ androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", 
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationVersion" }
 google-maps-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "googleMapsVersion" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanistVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -52,6 +52,7 @@ dependencies {
 
     // Compose
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.accompanist.permissions)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

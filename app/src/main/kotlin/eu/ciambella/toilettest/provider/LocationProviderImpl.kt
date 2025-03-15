@@ -10,8 +10,8 @@ import androidx.core.location.LocationManagerCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.tasks.CancellationTokenSource
-import eu.ciambella.toilettest.domain.location.model.Location
 import eu.ciambella.toilettest.domain.location.LocationProvider
+import eu.ciambella.toilettest.domain.location.model.Location
 import eu.ciambella.toilettest.domain.location.model.LocationResult
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -25,11 +25,13 @@ class LocationProviderImpl(
 
     private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
-    private fun hasLocationPermission(): Boolean = ContextCompat.checkSelfPermission(
-        context, Manifest.permission.ACCESS_FINE_LOCATION
-    ) == PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-        context, Manifest.permission.ACCESS_COARSE_LOCATION
-    ) == PackageManager.PERMISSION_GRANTED
+    override fun hasLocationPermission(): Boolean =
+        ContextCompat.checkSelfPermission(
+            context, Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(
+                context, Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
 
     private fun isLocationEnabled(): Boolean =
         LocationManagerCompat.isLocationEnabled(locationManager)

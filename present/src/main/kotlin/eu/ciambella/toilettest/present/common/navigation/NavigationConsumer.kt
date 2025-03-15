@@ -1,39 +1,26 @@
 package eu.ciambella.toilettest.present.common.navigation
 
 import android.content.Context
-import android.content.Intent
-import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
-import android.net.Uri
-import androidx.core.content.ContextCompat.startActivity
 import androidx.navigation.NavHostController
 import eu.ciambella.toilettest.present.screen.list.navigateToToiletList
 import eu.ciambella.toilettest.present.screen.maps.navigateToToiletMaps
+import eu.ciambella.toilettest.present.utils.ExternalIntentUtils
 
 class NavigationConsumer(
-    private val context: Context
+    private val context: Context,
 ) {
 
     fun handle(
         navHostController: NavHostController,
-        navigationElement: NavigationElement
+        navigationElement: NavigationElement,
     ) {
         when (navigationElement) {
             NavigationElement.ToiletList -> navHostController.navigateToToiletList()
             NavigationElement.ToiletMaps -> navHostController.navigateToToiletMaps()
-            is NavigationElement.ToiletNavigation -> startNavigationActivity(
-                address = navigationElement.address
+            is NavigationElement.ToiletNavigation -> ExternalIntentUtils.startNavigationActivity(
+                context, navigationElement.address
             )
-        }
-    }
-
-    private fun startNavigationActivity(address: String) {
-        val uri = Uri.parse("google.navigation:q=" + Uri.encode(address))
-        val intent = Intent(Intent.ACTION_VIEW, uri).apply {
-            setPackage("com.google.android.apps.maps")
-            flags = FLAG_ACTIVITY_NEW_TASK
-        }
-        if (intent.resolveActivity(context.packageManager) != null) {
-            context.startActivity(intent)
+            is NavigationElement.AppSettings -> ExternalIntentUtils.openAppSettings(context)
         }
     }
 

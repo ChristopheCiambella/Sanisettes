@@ -8,6 +8,9 @@ class LocationRepositoryImpl(
     private val locationProvider: LocationProvider
 ) : LocationRepository {
 
+    override suspend fun hasLocationPermission(): Boolean =
+        locationProvider.hasLocationPermission()
+
     override suspend fun getCurrentLocation(): LocationResult =
         locationProvider.getCurrentLocation()
 
