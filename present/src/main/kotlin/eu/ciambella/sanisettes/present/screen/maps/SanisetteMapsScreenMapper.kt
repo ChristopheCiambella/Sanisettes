@@ -1,5 +1,6 @@
 package eu.ciambella.sanisettes.present.screen.maps
 
+import eu.ciambella.sanisettes.design.components.MarkerProperty
 import eu.ciambella.sanisettes.design.core.content.ContentProperty
 import eu.ciambella.sanisettes.design.core.content.LazyColumnContentProperty
 import eu.ciambella.sanisettes.design.core.content.MapsContentProperty
@@ -7,7 +8,9 @@ import eu.ciambella.sanisettes.design.core.scaffold.ScaffoldProperty
 import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
 import eu.ciambella.sanisettes.present.common.mapper.NavigationBarPropertyMapper
 import eu.ciambella.sanisettes.present.common.mapper.RouteNavigationBarProperty
+import eu.ciambella.sanisettes.present.common.navigation.Action
 import eu.ciambella.sanisettes.present.common.navigation.EventActionHandler
+import eu.ciambella.sanisettes.present.common.navigation.NavigationElement
 
 class SanisetteMapsScreenMapper(
     private val navigationBarPropertyMapper: NavigationBarPropertyMapper,
@@ -59,6 +62,22 @@ class SanisetteMapsScreenMapper(
             startLatitude = sanisettes[0].location.latitude,
             startLongitude = sanisettes[0].location.longitude,
             startZoom = 12f,
+            markers = sanisettes.map {
+                MarkerProperty(
+                    latitude = it.location.latitude,
+                    longitude = it.location.longitude,
+                    title = it.address,
+                    onClick = {
+                        eventActionHandler.handle(
+                            Action.Navigation(
+                                navigationElement = NavigationElement.SanisetteNavigation(
+                                    address = it.address
+                                )
+                            )
+                        )
+                    }
+                )
+            }
         )
     )
 }

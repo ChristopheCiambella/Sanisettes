@@ -6,6 +6,8 @@ import androidx.compose.ui.Modifier
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
@@ -29,6 +31,20 @@ fun MapsContent(
 
         }
     ) {
-
+        property.markers.forEach { marker ->
+            Marker(
+                state = MarkerState(
+                    position = LatLng(
+                        marker.latitude,
+                        marker.longitude
+                    )
+                ),
+                title = marker.title,
+                onClick = {
+                    marker.onClick.invoke()
+                    true
+                }
+            )
+        }
     }
 }
