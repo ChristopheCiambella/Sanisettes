@@ -1,8 +1,10 @@
 package eu.ciambella.toilettest.present.screen.list
 
+import eu.ciambella.design.toilettest.components.ErrorProperty
 import eu.ciambella.design.toilettest.components.Property
 import eu.ciambella.design.toilettest.components.SanisetteCardShimmerProperty
 import eu.ciambella.design.toilettest.content.ContentProperty
+import eu.ciambella.design.toilettest.content.ErrorContentProperty
 import eu.ciambella.design.toilettest.content.LazyColumnContentProperty
 import eu.ciambella.design.toilettest.scaffold.ScaffoldProperty
 import eu.ciambella.toilettest.domain.toilet.model.Sanisette
@@ -60,24 +62,29 @@ class ToiletListScreenMapper(
             return loading(eventActionHandler)
         }
         return state.toilets.fold(
-            onSuccess = {
-                mapSuccess(it, eventActionHandler)
+            onSuccess = { toilets ->
+                scaffold(
+                    eventActionHandler = eventActionHandler,
+                    contentProperty = LazyColumnContentProperty(
+                        items = mapScreen(toilets, eventActionHandler)
+                    )
+                )
             },
             onFailure = {
-                TODO()
+                scaffold(
+                    eventActionHandler = eventActionHandler,
+                    contentProperty = ErrorContentProperty(
+                        property = ErrorProperty(
+                            title = "Erreur", // TODO
+                            message = "Une erreur est survenue", // TODO
+                            action = "Réessayer", // TODO
+                            onActionClick = {}
+                        )
+                    )
+                )
             }
         )
     }
-
-    private fun mapSuccess(
-        toilets: List<Sanisette>,
-        eventActionHandler: EventActionHandler,
-    ) = scaffold(
-        eventActionHandler = eventActionHandler,
-        contentProperty = LazyColumnContentProperty(
-            items = mapScreen(toilets, eventActionHandler)
-        )
-    )
 
     private fun mapScreen(
         toilets: List<Sanisette>,
