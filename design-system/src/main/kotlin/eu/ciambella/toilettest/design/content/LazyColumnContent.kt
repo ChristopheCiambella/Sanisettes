@@ -6,7 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import eu.ciambella.toilettest.design.components.SanisetteCard
 import eu.ciambella.design.toilettest.components.SanisetteCardProperty
+import eu.ciambella.design.toilettest.components.SanisetteCardShimmerProperty
 import eu.ciambella.design.toilettest.content.LazyColumnContentProperty
+import eu.ciambella.toilettest.design.components.SanisetteCardShimmer
 
 @Composable
 fun LazyColumnContent(
@@ -20,6 +22,7 @@ fun LazyColumnContent(
         items(items = property.items) { item ->
             when (item) {
                 is SanisetteCardProperty -> SanisetteCard(item)
+                is SanisetteCardShimmerProperty -> SanisetteCardShimmer()
             }
         }
     }

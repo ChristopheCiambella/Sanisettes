@@ -1,6 +1,5 @@
 package eu.ciambella.toilettest.present.screen.maps
 
-import eu.ciambella.design.toilettest.components.ShimmerProperty
 import eu.ciambella.design.toilettest.content.ContentProperty
 import eu.ciambella.design.toilettest.content.LazyColumnContentProperty
 import eu.ciambella.design.toilettest.content.MapsContentProperty
@@ -30,7 +29,7 @@ class ToiletMapsScreenMapper(
     ): ScaffoldProperty = scaffold(
         eventActionHandler = eventActionHandler,
         contentProperty = LazyColumnContentProperty(
-            items = mutableListOf(ShimmerProperty)
+            items = mutableListOf()
         )
     )
 
