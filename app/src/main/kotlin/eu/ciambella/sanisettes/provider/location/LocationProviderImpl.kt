@@ -1,4 +1,4 @@
-package eu.ciambella.sanisettes.provider
+package eu.ciambella.sanisettes.provider.location
 
 import android.Manifest
 import android.annotation.SuppressLint

@@ -1,8 +1,8 @@
 package eu.ciambella.sanisettes.present.common.mapper
 
-import eu.ciambella.sanisettes.design.R
 import eu.ciambella.sanisettes.design.core.bottombar.NavigationBarItemProperty
 import eu.ciambella.sanisettes.design.core.bottombar.NavigationBarProperty
+import eu.ciambella.sanisettes.present.R
 import eu.ciambella.sanisettes.present.common.navigation.Action
 import eu.ciambella.sanisettes.present.common.navigation.EventActionHandler
 import eu.ciambella.sanisettes.present.common.navigation.NavigationElement
@@ -24,9 +24,8 @@ class NavigationBarPropertyMapper {
         selectedRoute: RouteNavigationBarProperty,
         eventActionHandler: EventActionHandler,
     ) = NavigationBarItemProperty(
-        selectedIcon = R.drawable.list_selected,
-        unselectedIcon = R.drawable.list_unselected,
-        label = "List", // TODO string
+        iconResId = R.drawable.menu_list,
+        labelResId = R.string.bottom_menu_list,
         isSelected = selectedRoute == RouteNavigationBarProperty.LIST,
         onClick = {
             eventActionHandler.handle(
@@ -41,9 +40,8 @@ class NavigationBarPropertyMapper {
         selectedRoute: RouteNavigationBarProperty,
         eventActionHandler: EventActionHandler,
     ) = NavigationBarItemProperty(
-        selectedIcon = R.drawable.maps_selected,
-        unselectedIcon = R.drawable.maps_unselected,
-        label = "Maps", // TODO string
+        iconResId = R.drawable.menu_maps,
+        labelResId = R.string.bottom_menu_maps,
         isSelected = selectedRoute == RouteNavigationBarProperty.MAPS,
         onClick = {
             eventActionHandler.handle(

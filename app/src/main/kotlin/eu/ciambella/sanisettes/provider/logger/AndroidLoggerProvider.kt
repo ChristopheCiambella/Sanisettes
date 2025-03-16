@@ -1,4 +1,4 @@
-package eu.ciambella.sanisettes.provider
+package eu.ciambella.sanisettes.provider.logger
 
 import android.util.Log
 import eu.ciambella.sanisettes.domain.logger.LoggerProvider

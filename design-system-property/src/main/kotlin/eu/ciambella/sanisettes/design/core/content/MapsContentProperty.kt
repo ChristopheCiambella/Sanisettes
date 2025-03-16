@@ -4,6 +4,6 @@ import eu.ciambella.sanisettes.design.components.MarkerProperty
 
 data class MapsContentProperty(
     val markers: List<MarkerProperty>,
-    val centerOnMarkers: Boolean,
+    val centerOnPosition: Pair<Double, Double>?,
     val onLocationChanged: (latitude: Double, longitude: Double) -> Unit
 ) : ContentProperty

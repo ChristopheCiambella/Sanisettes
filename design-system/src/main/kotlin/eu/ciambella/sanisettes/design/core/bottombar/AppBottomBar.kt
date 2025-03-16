@@ -7,6 +7,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 
@@ -22,13 +23,7 @@ fun AppNavigationBar(
             NavigationBarItem(
                 icon = {
                     Icon(
-                        imageVector = ImageVector.vectorResource(
-                            if (navigationBarItem.isSelected) {
-                                navigationBarItem.selectedIcon
-                            } else {
-                                navigationBarItem.unselectedIcon
-                            }
-                        ),
+                        imageVector = ImageVector.vectorResource(navigationBarItem.iconResId),
                         contentDescription = null
                     )
                 },
@@ -36,7 +31,7 @@ fun AppNavigationBar(
                 onClick = navigationBarItem.onClick,
                 label = {
                     Text(
-                        text = navigationBarItem.label,
+                        text = stringResource(navigationBarItem.labelResId),
                     )
                 }
             )

@@ -16,8 +16,8 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
-
-private const val BOUNDS_PADDING_PIXEL = 100
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
 
 @Composable
 fun MapsContent(
@@ -26,28 +26,23 @@ fun MapsContent(
 ) {
     var initialCameraSet by remember { mutableStateOf(false) }
     val cameraPositionState = rememberCameraPositionState()
-    if (property.centerOnMarkers) {
-        LaunchedEffect(property.markers) {
-            if (property.markers.isNotEmpty()) {
-                initialCameraSet = false
-                val builder = LatLngBounds.Builder()
-                property.markers.forEach {
-                    builder.include(
-                        LatLng(it.latitude, it.longitude)
-                    )
-                }
-                val bounds = builder.build()
-                val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, BOUNDS_PADDING_PIXEL)
-                cameraPositionState.animate(cameraUpdate)
-                initialCameraSet = true
-            }
+    property.centerOnPosition?.also { (latitude, longitude) ->
+        LaunchedEffect(Unit) {
+            val cameraUpdate = CameraUpdateFactory.newLatLngZoom(LatLng(latitude, longitude), 11F)
+            cameraPositionState.animate(cameraUpdate)
+            initialCameraSet = true
         }
     }
     LaunchedEffect(cameraPositionState) {
-        snapshotFlow { cameraPositionState.position }
-            .collect { position ->
+        snapshotFlow { cameraPositionState.isMoving }
+            .distinctUntilChanged()
+            .filter { moving -> !moving }
+            .collect {
                 if (initialCameraSet) {
-                    property.onLocationChanged(position.target.latitude, position.target.longitude)
+                    property.onLocationChanged(
+                        cameraPositionState.position.target.latitude,
+                        cameraPositionState.position.target.longitude
+                    )
                 }
             }
     }

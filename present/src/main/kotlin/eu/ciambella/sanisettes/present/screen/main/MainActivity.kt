@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import eu.ciambella.sanisettes.design.theme.MainTheme
 import eu.ciambella.sanisettes.present.screen.list.SANISETTE_LIST_ROUTE
 import org.koin.androidx.compose.KoinAndroidContext
 
@@ -17,12 +18,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            navHostController = rememberNavController()
-            KoinAndroidContext {
-                AppNavHost(
-                    navHostController = navHostController,
-                    startDestination = SANISETTE_LIST_ROUTE,
-                )
+            MainTheme {
+                navHostController = rememberNavController()
+                KoinAndroidContext {
+                    AppNavHost(
+                        navHostController = navHostController,
+                        startDestination = SANISETTE_LIST_ROUTE,
+                    )
+                }
             }
         }
     }

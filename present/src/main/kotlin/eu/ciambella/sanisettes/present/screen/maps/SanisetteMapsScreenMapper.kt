@@ -7,8 +7,10 @@ import eu.ciambella.sanisettes.design.core.content.ContentProperty
 import eu.ciambella.sanisettes.design.core.content.LazyColumnContentProperty
 import eu.ciambella.sanisettes.design.core.content.MapsContentProperty
 import eu.ciambella.sanisettes.design.core.scaffold.ScaffoldProperty
+import eu.ciambella.sanisettes.design.core.topbar.TopAppBarProperty
 import eu.ciambella.sanisettes.domain.location.model.Location
 import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
+import eu.ciambella.sanisettes.present.R
 import eu.ciambella.sanisettes.present.common.mapper.NavigationBarPropertyMapper
 import eu.ciambella.sanisettes.present.common.mapper.RouteNavigationBarProperty
 import eu.ciambella.sanisettes.present.common.mapper.SanisetteCardMapper
@@ -21,11 +23,18 @@ class SanisetteMapsScreenMapper(
     private val sanisetteCardMapper: SanisetteCardMapper,
 ) {
 
+    companion object {
+        private val PARIS_POSITION = 48.866667 to 2.333333
+    }
+
     private fun scaffold(
         contentProperty: ContentProperty,
         bottomSheetContentProperty: BottomSheetProperty? = null,
         eventActionHandler: EventActionHandler,
     ) = ScaffoldProperty(
+        topAppBarProperty = TopAppBarProperty.Default(
+            titleResId = R.string.app_name
+        ),
         bottomSheetContentProperty = bottomSheetContentProperty,
         contentProperty = contentProperty,
         navigationBarProperty = navigationBarPropertyMapper.main(
@@ -38,8 +47,10 @@ class SanisetteMapsScreenMapper(
         eventActionHandler: EventActionHandler,
     ): ScaffoldProperty = scaffold(
         eventActionHandler = eventActionHandler,
-        contentProperty = LazyColumnContentProperty(
-            items = mutableListOf()
+        contentProperty = MapsContentProperty(
+            onLocationChanged = { _, _ -> },
+            markers = emptyList(),
+            centerOnPosition = PARIS_POSITION
         )
     )
 
@@ -58,7 +69,6 @@ class SanisetteMapsScreenMapper(
         eventActionHandler = eventActionHandler,
         contentProperty = mapMapsContent(
             sanisettes = state.sanisettes,
-            centerOnMarkers = state.searchLocation == null,
             onSanisetteClicked = onSanisetteClicked,
             onLocationChanged = onLocationChanged
         )
@@ -66,7 +76,6 @@ class SanisetteMapsScreenMapper(
 
     private fun mapMapsContent(
         sanisettes: List<Sanisette>?,
-        centerOnMarkers: Boolean,
         onSanisetteClicked: (Sanisette) -> Unit,
         onLocationChanged: (Location) -> Unit,
     ) = MapsContentProperty(
@@ -77,7 +86,7 @@ class SanisetteMapsScreenMapper(
             sanisettes = sanisettes,
             onSanisetteClicked = onSanisetteClicked
         ),
-        centerOnMarkers = centerOnMarkers
+        centerOnPosition = PARIS_POSITION
     )
 
     private fun mapSanisettesMarkers(
@@ -118,7 +127,7 @@ class SanisetteMapsScreenMapper(
                         navigate.invoke()
                     },
                     SimpleButtonProperty(
-                        label = "Démarrer la navigation", // TODO
+                        labelResId = R.string.start_navigation,
                         onClick = navigate
                     )
                 ),

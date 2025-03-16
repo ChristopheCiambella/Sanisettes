@@ -3,7 +3,7 @@ package eu.ciambella.sanisettes.design.atoms.button
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import eu.ciambella.sanisettes.design.atoms.SimpleButtonProperty
 
 @Composable
@@ -13,17 +13,6 @@ fun SimpleButton(
     Button(
         onClick = property.onClick
     ) {
-        Text(property.label)
+        Text(stringResource(property.labelResId))
     }
-}
-
-@Preview
-@Composable
-fun SimpleButtonPreview() {
-    SimpleButton(
-        SimpleButtonProperty(
-            label = "Test",
-            onClick = {}
-        )
-    )
 }

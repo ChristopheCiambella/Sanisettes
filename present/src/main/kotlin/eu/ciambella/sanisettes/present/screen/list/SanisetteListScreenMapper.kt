@@ -1,6 +1,5 @@
 package eu.ciambella.sanisettes.present.screen.list
 
-import eu.ciambella.sanisettes.design.components.ErrorProperty
 import eu.ciambella.sanisettes.design.components.LoadingProperty
 import eu.ciambella.sanisettes.design.components.Property
 import eu.ciambella.sanisettes.design.components.SanisetteCardShimmerProperty
@@ -8,7 +7,10 @@ import eu.ciambella.sanisettes.design.core.content.ContentProperty
 import eu.ciambella.sanisettes.design.core.content.ErrorContentProperty
 import eu.ciambella.sanisettes.design.core.content.LazyColumnContentProperty
 import eu.ciambella.sanisettes.design.core.scaffold.ScaffoldProperty
+import eu.ciambella.sanisettes.design.core.topbar.TopAppBarProperty
 import eu.ciambella.sanisettes.domain.logger.LoggerProvider
+import eu.ciambella.sanisettes.present.R
+import eu.ciambella.sanisettes.present.common.mapper.ErrorPropertyMapper
 import eu.ciambella.sanisettes.present.common.mapper.NavigationBarPropertyMapper
 import eu.ciambella.sanisettes.present.common.mapper.RouteNavigationBarProperty
 import eu.ciambella.sanisettes.present.common.mapper.SanisetteCardMapper
@@ -19,7 +21,8 @@ import eu.ciambella.sanisettes.present.common.navigation.NavigationElement
 class SanisetteListScreenMapper(
     private val navigationBarPropertyMapper: NavigationBarPropertyMapper,
     private val sanisetteCardMapper: SanisetteCardMapper,
-    private val loggerProvider: LoggerProvider
+    private val errorPropertyMapper: ErrorPropertyMapper,
+    private val loggerProvider: LoggerProvider,
 ) {
 
     companion object {
@@ -30,6 +33,9 @@ class SanisetteListScreenMapper(
         contentProperty: ContentProperty,
         eventActionHandler: EventActionHandler,
     ) = ScaffoldProperty(
+        topAppBarProperty = TopAppBarProperty.Default(
+            titleResId = R.string.app_name
+        ),
         contentProperty = contentProperty,
         navigationBarProperty = navigationBarPropertyMapper.main(
             selectedRoute = RouteNavigationBarProperty.LIST,
@@ -69,7 +75,7 @@ class SanisetteListScreenMapper(
             return loading(eventActionHandler)
         }
         return state.firstSanisettesResult.fold(
-            onSuccess = { sanisettes ->
+            onSuccess = {
                 scaffold(
                     eventActionHandler = eventActionHandler,
                     contentProperty = LazyColumnContentProperty(
@@ -86,12 +92,7 @@ class SanisetteListScreenMapper(
                 scaffold(
                     eventActionHandler = eventActionHandler,
                     contentProperty = ErrorContentProperty(
-                        property = ErrorProperty(
-                            title = "Erreur", // TODO
-                            message = "Une erreur est survenue", // TODO
-                            action = "Réessayer", // TODO
-                            onActionClick = {}
-                        )
+                        property = errorPropertyMapper.mapUnknownError()
                     )
                 )
             }
@@ -103,7 +104,9 @@ class SanisetteListScreenMapper(
         onNextPageRequested: (Int) -> Unit,
         eventActionHandler: EventActionHandler,
     ): List<Property> = mutableListOf<Property>().apply {
-        addAll(mapSanisettes(state, eventActionHandler))
+        addAll(
+            mapSanisettes(state, eventActionHandler)
+        )
         if (state.nextOffset != null) {
             add(
                 LoadingProperty {

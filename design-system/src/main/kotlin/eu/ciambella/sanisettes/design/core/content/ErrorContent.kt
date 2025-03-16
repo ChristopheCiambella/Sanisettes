@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -43,18 +42,6 @@ fun ErrorContent(
                 )
             )
         }
-        property.action?.also { action ->
-            Button(
-                onClick = {
-                    property.onActionClick?.invoke()
-                },
-                modifier = Modifier.padding(
-                    top = 16.dp
-                )
-            ) {
-                Text(action)
-            }
-        }
     }
 }
 
@@ -65,8 +52,6 @@ fun ErrorContentPreview() {
         property = ErrorProperty(
             title = "Impossible de charger cette page",
             message = "Vérifiez votre connexion internet.",
-            action = "Réessayer",
-            onActionClick = null
         )
     )
 }
