@@ -4,12 +4,16 @@ import eu.ciambella.sanisettes.data.network.entity.ResultEntity
 import eu.ciambella.sanisettes.data.network.response.SanisettesResponse
 import eu.ciambella.sanisettes.data.utils.DistanceUtils
 import eu.ciambella.sanisettes.domain.location.model.Location
+import eu.ciambella.sanisettes.domain.logger.LoggerProvider
 import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
 import eu.ciambella.sanisettes.domain.sanisette.model.Sanisettes
 
-class SanisetteResponseMapper {
+class SanisetteResponseMapper(
+    private val loggerProvider: LoggerProvider
+) {
 
     companion object {
+        private const val TAG = "SanisetteResponseMapper"
         private const val TRUE = "Oui"
         private const val DISTANCE_FORMAT = "%.3fkm"
         private const val UNAVAILABLE = "----"
@@ -37,7 +41,8 @@ class SanisetteResponseMapper {
         result: ResultEntity,
         currentLocation: Location?,
     ): Sanisette? {
-        if (result.adresse == null) {
+        if (result.adresse == null || result.geoPoint2d == null) {
+            loggerProvider.w(TAG, "Mandatory field is null")
             return null
         }
         val location = Location(
