@@ -3,6 +3,11 @@ package eu.ciambella.sanisettes.design.core.content
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
@@ -19,19 +24,32 @@ fun MapsContent(
     property: MapsContentProperty,
     modifier: Modifier = Modifier,
 ) {
+    var initialCameraSet by remember { mutableStateOf(false) }
     val cameraPositionState = rememberCameraPositionState()
-    LaunchedEffect(Unit) {
-        if (property.markers.isNotEmpty()) {
-            val builder = LatLngBounds.Builder()
-            property.markers.forEach {
-                builder.include(
-                    LatLng(it.latitude, it.longitude)
-                )
+    if (property.centerOnMarkers) {
+        LaunchedEffect(property.markers) {
+            if (property.markers.isNotEmpty()) {
+                initialCameraSet = false
+                val builder = LatLngBounds.Builder()
+                property.markers.forEach {
+                    builder.include(
+                        LatLng(it.latitude, it.longitude)
+                    )
+                }
+                val bounds = builder.build()
+                val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, BOUNDS_PADDING_PIXEL)
+                cameraPositionState.animate(cameraUpdate)
+                initialCameraSet = true
             }
-            val bounds = builder.build()
-            val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, BOUNDS_PADDING_PIXEL)
-            cameraPositionState.animate(cameraUpdate)
         }
+    }
+    LaunchedEffect(cameraPositionState) {
+        snapshotFlow { cameraPositionState.position }
+            .collect { position ->
+                if (initialCameraSet) {
+                    property.onLocationChanged(position.target.latitude, position.target.longitude)
+                }
+            }
     }
     GoogleMap(
         modifier = modifier.fillMaxSize(),

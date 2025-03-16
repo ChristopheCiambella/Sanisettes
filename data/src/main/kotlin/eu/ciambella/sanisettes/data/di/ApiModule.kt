@@ -1,7 +1,7 @@
 package eu.ciambella.sanisettes.data.di
 
-import eu.ciambella.sanisettes.data.network.SanisettesParisApiService
-import eu.ciambella.sanisettes.data.network.SanisettesParisWebService
+import eu.ciambella.sanisettes.data.network.DataRATPParisApiService
+import eu.ciambella.sanisettes.data.network.DataRATPParisWebService
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
@@ -14,5 +14,5 @@ val apiModule = module {
             explicitNulls = false
         }
     }
-    single<SanisettesParisApiService> { SanisettesParisWebService(get()).api }
+    single<DataRATPParisApiService> { DataRATPParisWebService(get()).api }
 }

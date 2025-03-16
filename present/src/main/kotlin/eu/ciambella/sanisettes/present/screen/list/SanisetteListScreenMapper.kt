@@ -8,8 +8,7 @@ import eu.ciambella.sanisettes.design.core.content.ContentProperty
 import eu.ciambella.sanisettes.design.core.content.ErrorContentProperty
 import eu.ciambella.sanisettes.design.core.content.LazyColumnContentProperty
 import eu.ciambella.sanisettes.design.core.scaffold.ScaffoldProperty
-import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
-import eu.ciambella.sanisettes.domain.sanisette.model.Sanisettes
+import eu.ciambella.sanisettes.domain.logger.LoggerProvider
 import eu.ciambella.sanisettes.present.common.mapper.NavigationBarPropertyMapper
 import eu.ciambella.sanisettes.present.common.mapper.RouteNavigationBarProperty
 import eu.ciambella.sanisettes.present.common.mapper.SanisetteCardMapper
@@ -20,7 +19,12 @@ import eu.ciambella.sanisettes.present.common.navigation.NavigationElement
 class SanisetteListScreenMapper(
     private val navigationBarPropertyMapper: NavigationBarPropertyMapper,
     private val sanisetteCardMapper: SanisetteCardMapper,
+    private val loggerProvider: LoggerProvider
 ) {
+
+    companion object {
+        private const val TAG = "SanisetteListScreenMapper"
+    }
 
     private fun scaffold(
         contentProperty: ContentProperty,
@@ -78,6 +82,7 @@ class SanisetteListScreenMapper(
                 )
             },
             onFailure = {
+                loggerProvider.e(TAG, "Error while loading sanisettes", it)
                 scaffold(
                     eventActionHandler = eventActionHandler,
                     contentProperty = ErrorContentProperty(
@@ -122,5 +127,4 @@ class SanisetteListScreenMapper(
             )
         }
     }
-
 }

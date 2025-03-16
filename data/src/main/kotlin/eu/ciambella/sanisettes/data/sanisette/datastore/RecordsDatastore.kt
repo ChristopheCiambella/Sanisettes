@@ -1,15 +1,14 @@
 package eu.ciambella.sanisettes.data.sanisette.datastore
 
-import eu.ciambella.sanisettes.data.network.SanisettesParisApiService
-import eu.ciambella.sanisettes.data.sanisette.mapper.SanisetteResponseMapper
+import eu.ciambella.sanisettes.data.network.DataRATPParisApiService
+import eu.ciambella.sanisettes.data.sanisette.mapper.RecordsResponseMapper
 import eu.ciambella.sanisettes.domain.location.LocationProvider
 import eu.ciambella.sanisettes.domain.logger.LoggerProvider
-import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
 import eu.ciambella.sanisettes.domain.sanisette.model.Sanisettes
 
-class SanisettesDatastore(
-    private val toiletApiService: SanisettesParisApiService,
-    private val toiletResponseMapper: SanisetteResponseMapper,
+class RecordsDatastore(
+    private val sanisettesParisApiService: DataRATPParisApiService,
+    private val toiletResponseMapper: RecordsResponseMapper,
     private val locationProvider: LocationProvider,
     private val loggerProvider: LoggerProvider,
 ) {
@@ -19,9 +18,9 @@ class SanisettesDatastore(
         private const val LIMIT = 50
     }
 
-    suspend fun getSanisettes(offset: Int): Sanisettes {
+    suspend fun getRecords(offset: Int): Sanisettes {
         loggerProvider.i(TAG, "Requesting sanisettes with offset $offset")
-        val response = toiletApiService.getSanisettes(
+        val response = sanisettesParisApiService.getRecords(
             limit = LIMIT,
             offset = offset
         )

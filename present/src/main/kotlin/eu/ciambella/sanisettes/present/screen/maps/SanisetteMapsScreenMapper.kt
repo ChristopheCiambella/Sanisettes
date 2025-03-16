@@ -1,14 +1,13 @@
 package eu.ciambella.sanisettes.present.screen.maps
 
 import eu.ciambella.sanisettes.design.atoms.SimpleButtonProperty
-import eu.ciambella.sanisettes.design.components.ErrorProperty
 import eu.ciambella.sanisettes.design.components.MarkerProperty
 import eu.ciambella.sanisettes.design.core.bottomsheet.BottomSheetProperty
 import eu.ciambella.sanisettes.design.core.content.ContentProperty
-import eu.ciambella.sanisettes.design.core.content.ErrorContentProperty
 import eu.ciambella.sanisettes.design.core.content.LazyColumnContentProperty
 import eu.ciambella.sanisettes.design.core.content.MapsContentProperty
 import eu.ciambella.sanisettes.design.core.scaffold.ScaffoldProperty
+import eu.ciambella.sanisettes.domain.location.model.Location
 import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
 import eu.ciambella.sanisettes.present.common.mapper.NavigationBarPropertyMapper
 import eu.ciambella.sanisettes.present.common.mapper.RouteNavigationBarProperty
@@ -48,63 +47,52 @@ class SanisetteMapsScreenMapper(
         state: SanisetteMapsState,
         eventActionHandler: EventActionHandler,
         onSanisetteClicked: (Sanisette) -> Unit,
+        onLocationChanged: (Location) -> Unit,
         onBottomSheetDismiss: () -> Unit,
-    ): ScaffoldProperty {
-        if (state.sanisettes == null) {
-            return loading(eventActionHandler)
-        }
-        return state.sanisettes.fold(
-            onSuccess = {
-                mapSuccess(
-                    state = state,
-                    sanisettes = it.sanisettes,
-                    eventActionHandler = eventActionHandler,
-                    onSanisetteClicked = onSanisetteClicked,
-                    onBottomSheetDismiss = onBottomSheetDismiss
-                )
-            },
-            onFailure = {
-                scaffold(
-                    eventActionHandler = eventActionHandler,
-                    contentProperty = ErrorContentProperty(
-                        property = ErrorProperty(
-                            title = "Erreur", // TODO
-                            message = "Une erreur est survenue", // TODO
-                            action = "Réessayer", // TODO
-                            onActionClick = {}
-                        )
-                    )
-                )
-            }
-        )
-    }
-
-    private fun mapSuccess(
-        state: SanisetteMapsState,
-        sanisettes: List<Sanisette>,
-        eventActionHandler: EventActionHandler,
-        onSanisetteClicked: (Sanisette) -> Unit,
-        onBottomSheetDismiss: () -> Unit,
-    ) = scaffold(
+    ): ScaffoldProperty = scaffold(
         bottomSheetContentProperty = mapSanisetteDetails(
             sanisette = state.sanisetteDetails,
             onBottomSheetDismiss = onBottomSheetDismiss,
             eventActionHandler = eventActionHandler,
         ),
         eventActionHandler = eventActionHandler,
-        contentProperty = MapsContentProperty(
-            markers = sanisettes.map {
-                MarkerProperty(
-                    latitude = it.location.latitude,
-                    longitude = it.location.longitude,
-                    title = it.address,
-                    onClick = {
-                        onSanisetteClicked.invoke(it)
-                    }
-                )
-            }
+        contentProperty = mapMapsContent(
+            sanisettes = state.sanisettes,
+            centerOnMarkers = state.searchLocation == null,
+            onSanisetteClicked = onSanisetteClicked,
+            onLocationChanged = onLocationChanged
         )
     )
+
+    private fun mapMapsContent(
+        sanisettes: List<Sanisette>?,
+        centerOnMarkers: Boolean,
+        onSanisetteClicked: (Sanisette) -> Unit,
+        onLocationChanged: (Location) -> Unit,
+    ) = MapsContentProperty(
+        onLocationChanged = { latitude, longitude ->
+            onLocationChanged.invoke(Location(latitude, longitude))
+        },
+        markers = mapSanisettesMarkers(
+            sanisettes = sanisettes,
+            onSanisetteClicked = onSanisetteClicked
+        ),
+        centerOnMarkers = centerOnMarkers
+    )
+
+    private fun mapSanisettesMarkers(
+        sanisettes: List<Sanisette>?,
+        onSanisetteClicked: (Sanisette) -> Unit,
+    ): List<MarkerProperty> = sanisettes?.map {
+        MarkerProperty(
+            latitude = it.location.latitude,
+            longitude = it.location.longitude,
+            title = it.address,
+            onClick = {
+                onSanisetteClicked.invoke(it)
+            }
+        )
+    } ?: emptyList()
 
     private fun mapSanisetteDetails(
         sanisette: Sanisette?,

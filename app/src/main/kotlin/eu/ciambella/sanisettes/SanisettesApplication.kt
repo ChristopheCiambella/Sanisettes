@@ -7,7 +7,7 @@ import eu.ciambella.sanisettes.data.di.datasourceModule
 import eu.ciambella.sanisettes.data.di.datastoreModule
 import eu.ciambella.sanisettes.data.di.repositoryModule
 import eu.ciambella.sanisettes.di.appModule
-import eu.ciambella.sanisettes.di.presentModule
+import eu.ciambella.sanisettes.di.providerModule
 import eu.ciambella.sanisettes.di.uiMapperModule
 import eu.ciambella.sanisettes.di.viewModelModule
 import eu.ciambella.sanisettes.domain.di.useCaseModule
@@ -30,6 +30,7 @@ class SanisettesApplication : Application() {
                 listOf(
                     useCaseModule,
                     appModule,
+                    providerModule,
                     apiModule,
                     datasourceModule,
                     datastoreModule,
@@ -37,7 +38,6 @@ class SanisettesApplication : Application() {
                     repositoryModule,
                     viewModelModule,
                     uiMapperModule,
-                    presentModule,
                 )
             )
         }

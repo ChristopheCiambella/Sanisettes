@@ -1,4 +1,4 @@
-package eu.ciambella.sanisettes.data.utils
+package eu.ciambella.sanisettes.domain.utils
 
 import eu.ciambella.sanisettes.domain.location.model.Location
 import kotlin.math.atan2

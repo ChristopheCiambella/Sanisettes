@@ -5,5 +5,5 @@ import eu.ciambella.sanisettes.domain.sanisette.SanisettesRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single<SanisettesRepository> { SanisettesRepositoryImpl(get()) }
+    single<SanisettesRepository> { SanisettesRepositoryImpl(get(), get()) }
 }
