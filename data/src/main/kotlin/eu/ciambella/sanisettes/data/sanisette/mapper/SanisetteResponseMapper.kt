@@ -5,6 +5,7 @@ import eu.ciambella.sanisettes.data.network.response.SanisettesResponse
 import eu.ciambella.sanisettes.data.utils.DistanceUtils
 import eu.ciambella.sanisettes.domain.location.model.Location
 import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
+import eu.ciambella.sanisettes.domain.sanisette.model.Sanisettes
 
 class SanisetteResponseMapper {
 
@@ -17,14 +18,28 @@ class SanisetteResponseMapper {
     fun map(
         response: SanisettesResponse,
         currentLocation: Location?,
-    ): List<Sanisette> = response.results.map {
-        mapSanisette(it, currentLocation)
+        offset: Int
+    ): Sanisettes {
+        val nextOffset = offset + response.results.size
+        return Sanisettes(
+            sanisettes = response.results.mapNotNull {
+                mapSanisette(it, currentLocation)
+            },
+            nextOffset = if (nextOffset >= response.totalCount) {
+                null
+            } else {
+                nextOffset
+            }
+        )
     }
 
     private fun mapSanisette(
         result: ResultEntity,
         currentLocation: Location?,
-    ): Sanisette {
+    ): Sanisette? {
+        if (result.adresse == null) {
+            return null
+        }
         val location = Location(
             latitude = result.geoPoint2d.lat,
             longitude = result.geoPoint2d.lon
@@ -32,7 +47,7 @@ class SanisetteResponseMapper {
         return Sanisette(
             address = formatAddress(result.adresse),
             isPmr = result.accesPmr == TRUE,
-            openingHours = result.horaire,
+            openingHours = result.horaire ?: UNAVAILABLE,
             location = location,
             distance = calcDistance(
                 currentLocation = currentLocation,

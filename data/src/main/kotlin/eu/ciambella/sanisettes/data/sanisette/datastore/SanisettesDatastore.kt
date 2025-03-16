@@ -4,6 +4,7 @@ import eu.ciambella.sanisettes.data.network.SanisettesParisApiService
 import eu.ciambella.sanisettes.data.sanisette.mapper.SanisetteResponseMapper
 import eu.ciambella.sanisettes.domain.location.LocationProvider
 import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
+import eu.ciambella.sanisettes.domain.sanisette.model.Sanisettes
 
 class SanisettesDatastore(
     private val toiletApiService: SanisettesParisApiService,
@@ -11,9 +12,20 @@ class SanisettesDatastore(
     private val locationProvider: LocationProvider
 ) {
 
-    suspend fun getSanisettes(): List<Sanisette> {
-        val response = toiletApiService.getSanisettes()
+    companion object {
+        private const val LIMIT = 50
+    }
+
+    suspend fun getSanisettes(offset: Int): Sanisettes {
+        val response = toiletApiService.getSanisettes(
+            limit = LIMIT,
+            offset = offset
+        )
         val currentLocation = locationProvider.getCurrentLocation()
-        return toiletResponseMapper.map(response, currentLocation)
+        return toiletResponseMapper.map(
+            response = response,
+            currentLocation = currentLocation,
+            offset = offset
+        )
     }
 }

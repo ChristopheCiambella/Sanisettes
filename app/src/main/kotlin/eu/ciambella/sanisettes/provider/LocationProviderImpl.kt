@@ -49,12 +49,16 @@ class LocationProviderImpl(
             Priority.PRIORITY_HIGH_ACCURACY,
             CancellationTokenSource().token
         ).addOnCompleteListener { location ->
-            continuation.resume(
-                Location(
-                    latitude = location.result.latitude,
-                    longitude = location.result.longitude
+            if (location.isSuccessful) {
+                continuation.resume(
+                    Location(
+                        latitude = location.result.latitude,
+                        longitude = location.result.longitude
+                    )
                 )
-            )
+            } else {
+                continuation.resume(null)
+            }
         }
     }
 }

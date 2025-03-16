@@ -15,7 +15,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
-class TestApplication : Application() {
+class SanisettesApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -25,7 +25,7 @@ class TestApplication : Application() {
     private fun initKoin() {
         startKoin {
             androidLogger()
-            androidContext(this@TestApplication)
+            androidContext(this@SanisettesApplication)
             modules(
                 listOf(
                     useCaseModule,

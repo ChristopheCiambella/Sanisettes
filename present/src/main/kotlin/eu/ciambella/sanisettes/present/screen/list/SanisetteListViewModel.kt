@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SanisetteListViewModel(
-    private val listScreenMapper: SanisetteListScreenMapper,
+    private val sanisetteListScreenMapper: SanisetteListScreenMapper,
     private val getSanisettesUseCase: GetSanisettesUseCase,
     private val dispatcherProvider: CoroutineDispatcherProvider,
     private val actionHandler: ActionHandler,
@@ -32,29 +32,48 @@ class SanisetteListViewModel(
     }.stateIn(
         viewModelScope,
         SharingStarted.Eagerly,
-        listScreenMapper.loading(this)
+        sanisetteListScreenMapper.loading(this)
     )
 
     private fun mapToUI(
         state: SanisetteListState
-    ): ScaffoldProperty = listScreenMapper.map(
+    ): ScaffoldProperty = sanisetteListScreenMapper.map(
         state = state,
         eventActionHandler = this,
+        onNextPageRequested = ::requestNextPageData
     )
 
     fun create() {
-        requestData()
+        requestFirstPageData()
     }
 
     fun onLocationPermissionGranted() {
-        requestData()
+        requestFirstPageData()
     }
 
-    private fun requestData() {
+    private fun requestFirstPageData() {
         viewModelScope.launch(dispatcherProvider.io) {
+            val result = getSanisettesUseCase.invoke()
+            val sanisettes = result.getOrNull()
             model.update {
                 it.copy(
-                    sanisettes = getSanisettesUseCase.invoke()
+                    firstSanisettesResult = result,
+                    sanisettes = sanisettes?.sanisettes ?: emptyList(),
+                    nextOffset = sanisettes?.nextOffset
+                )
+            }
+        }
+    }
+
+    private fun requestNextPageData(nextOffset: Int) {
+        viewModelScope.launch(dispatcherProvider.io) {
+            val result = getSanisettesUseCase.invoke(nextOffset)
+            val sanisettes = result.getOrNull()
+            model.update {
+                it.copy(
+                    nextSanisettesResult = result,
+                    sanisettes = it.sanisettes + (sanisettes?.sanisettes ?: emptyList()),
+                    nextOffset = sanisettes?.nextOffset
                 )
             }
         }

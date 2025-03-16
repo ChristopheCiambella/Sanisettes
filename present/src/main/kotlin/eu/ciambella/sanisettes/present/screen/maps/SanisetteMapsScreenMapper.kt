@@ -57,7 +57,7 @@ class SanisetteMapsScreenMapper(
             onSuccess = {
                 mapSuccess(
                     state = state,
-                    sanisettes = it,
+                    sanisettes = it.sanisettes,
                     eventActionHandler = eventActionHandler,
                     onSanisetteClicked = onSanisetteClicked,
                     onBottomSheetDismiss = onBottomSheetDismiss

@@ -6,11 +6,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ResultEntity(
     @SerialName("adresse")
-    val adresse: String,
+    val adresse: String?,
     @SerialName("horaire")
-    val horaire: String,
+    val horaire: String?,
     @SerialName("acces_pmr")
-    val accesPmr: String,
+    val accesPmr: String?,
     @SerialName("geo_point_2d")
-    val geoPoint2d: GeometryEntity
+    val geoPoint2d: GeometryEntity?
 )

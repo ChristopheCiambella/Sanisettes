@@ -5,10 +5,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import eu.ciambella.sanisettes.design.atoms.SimpleButtonProperty
 import eu.ciambella.sanisettes.design.atoms.button.SimpleButton
+import eu.ciambella.sanisettes.design.components.Loading
+import eu.ciambella.sanisettes.design.components.LoadingProperty
 import eu.ciambella.sanisettes.design.components.SanisetteCard
 import eu.ciambella.sanisettes.design.components.SanisetteCardProperty
 import eu.ciambella.sanisettes.design.components.SanisetteCardShimmer
@@ -19,8 +25,10 @@ fun LazyColumnContent(
     property: LazyColumnContentProperty,
     modifier: Modifier = Modifier,
 ) {
+    val listState = rememberLazyListState()
     LazyColumn(
         userScrollEnabled = property.scrollEnabled,
+        state = listState,
         modifier = modifier,
     ) {
         items(items = property.items) { item ->
@@ -31,7 +39,7 @@ fun LazyColumnContent(
                 ) {
                     SimpleButton(item)
                 }
-
+                is LoadingProperty -> Loading(item)
                 is SanisetteCardProperty -> SanisetteCard(item)
                 is SanisetteCardShimmerProperty -> SanisetteCardShimmer()
             }

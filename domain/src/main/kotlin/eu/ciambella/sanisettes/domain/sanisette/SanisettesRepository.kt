@@ -1,7 +1,7 @@
 package eu.ciambella.sanisettes.domain.sanisette
 
-import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
+import eu.ciambella.sanisettes.domain.sanisette.model.Sanisettes
 
 interface SanisettesRepository {
-    suspend fun getSanisettes(): List<Sanisette>
+    suspend fun getSanisettes(offset: Int): Sanisettes
 }

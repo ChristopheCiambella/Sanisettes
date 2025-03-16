@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="shimmer_primary">#ffe5e7eb</color>
+    <color name="shimmer_secondary">#fff3f4f6</color>
+    <color name="loading">#ff001ed2</color>
+</resources>

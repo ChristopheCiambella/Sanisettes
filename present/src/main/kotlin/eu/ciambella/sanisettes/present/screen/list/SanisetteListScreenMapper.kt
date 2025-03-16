@@ -1,6 +1,7 @@
 package eu.ciambella.sanisettes.present.screen.list
 
 import eu.ciambella.sanisettes.design.components.ErrorProperty
+import eu.ciambella.sanisettes.design.components.LoadingProperty
 import eu.ciambella.sanisettes.design.components.Property
 import eu.ciambella.sanisettes.design.components.SanisetteCardShimmerProperty
 import eu.ciambella.sanisettes.design.core.content.ContentProperty
@@ -8,6 +9,7 @@ import eu.ciambella.sanisettes.design.core.content.ErrorContentProperty
 import eu.ciambella.sanisettes.design.core.content.LazyColumnContentProperty
 import eu.ciambella.sanisettes.design.core.scaffold.ScaffoldProperty
 import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
+import eu.ciambella.sanisettes.domain.sanisette.model.Sanisettes
 import eu.ciambella.sanisettes.present.common.mapper.NavigationBarPropertyMapper
 import eu.ciambella.sanisettes.present.common.mapper.RouteNavigationBarProperty
 import eu.ciambella.sanisettes.present.common.mapper.SanisetteCardMapper
@@ -57,16 +59,21 @@ class SanisetteListScreenMapper(
     fun map(
         state: SanisetteListState,
         eventActionHandler: EventActionHandler,
+        onNextPageRequested: (Int) -> Unit
     ): ScaffoldProperty {
-        if (state.sanisettes == null) {
+        if (state.firstSanisettesResult == null) {
             return loading(eventActionHandler)
         }
-        return state.sanisettes.fold(
-            onSuccess = { toilets ->
+        return state.firstSanisettesResult.fold(
+            onSuccess = { sanisettes ->
                 scaffold(
                     eventActionHandler = eventActionHandler,
                     contentProperty = LazyColumnContentProperty(
-                        items = mapScreen(toilets, eventActionHandler)
+                        items = mapScreen(
+                            state = state,
+                            eventActionHandler = eventActionHandler,
+                            onNextPageRequested = onNextPageRequested
+                        )
                     )
                 )
             },
@@ -87,21 +94,33 @@ class SanisetteListScreenMapper(
     }
 
     private fun mapScreen(
-        sanisettes: List<Sanisette>,
+        state: SanisetteListState,
+        onNextPageRequested: (Int) -> Unit,
         eventActionHandler: EventActionHandler,
     ): List<Property> = mutableListOf<Property>().apply {
-        addAll(
-            sanisettes.map {
-                sanisetteCardMapper.map(it) {
-                    eventActionHandler.handle(
-                        Action.Navigation(
-                            navigationElement = NavigationElement.SanisetteNavigation(
-                                address = it.address
-                            )
-                        )
-                    )
+        addAll(mapSanisettes(state, eventActionHandler))
+        if (state.nextOffset != null) {
+            add(
+                LoadingProperty {
+                    onNextPageRequested.invoke(state.nextOffset)
                 }
-            }
-        )
+            )
+        }
     }
+
+    private fun mapSanisettes(
+        state: SanisetteListState,
+        eventActionHandler: EventActionHandler,
+    ): List<Property> = state.sanisettes.map {
+        sanisetteCardMapper.map(it) {
+            eventActionHandler.handle(
+                Action.Navigation(
+                    navigationElement = NavigationElement.SanisetteNavigation(
+                        address = it.address
+                    )
+                )
+            )
+        }
+    }
+
 }
