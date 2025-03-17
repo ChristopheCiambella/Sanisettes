@@ -38,10 +38,19 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    sourceSets {
+        getByName("test").resources.srcDirs("src/main/assets")
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
-
     // Clean architecture
     implementation(project(":design-system"))
     implementation(project(":design-system-property"))
@@ -53,13 +62,15 @@ dependencies {
 
     // Kotlin
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.coroutines.core)
 
     // Compose
     implementation(libs.androidx.navigation.compose)
     implementation(libs.accompanist.permissions)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    androidTestImplementation(libs.androidx.espresso.core)
+    // Tests
+    testImplementation(libs.tests.junit)
+    testImplementation(libs.tests.mockk)
+    testImplementation(libs.tests.core)
+    testImplementation(libs.tests.core.testing)
 }

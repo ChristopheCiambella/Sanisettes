@@ -3,9 +3,11 @@ package eu.ciambella.sanisettes.domain.sanisette.usecase
 import eu.ciambella.sanisettes.domain.location.model.Location
 import eu.ciambella.sanisettes.domain.sanisette.SanisettesRepository
 import eu.ciambella.sanisettes.domain.sanisette.model.Sanisettes
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -15,13 +17,15 @@ import org.junit.Test
 
 class SearchSanisettesUseCaseTest {
 
-    private lateinit var repository: SanisettesRepository
-    private lateinit var useCase: SearchSanisettesUseCase
+    @MockK
+    private lateinit var sanisettesRepository: SanisettesRepository
+
+    private lateinit var cut: SearchSanisettesUseCase
 
     @Before
     fun setup() {
-        repository = mockk()
-        useCase = SearchSanisettesUseCase(repository)
+        MockKAnnotations.init(this)
+        cut = SearchSanisettesUseCase(sanisettesRepository)
     }
 
     @Test
@@ -32,15 +36,15 @@ class SearchSanisettesUseCaseTest {
             every { longitude } returns 2.3522
         }
         val expected = mockk<Sanisettes>()
-        coEvery { repository.searchSanisettes(location) } returns expected
+        coEvery { sanisettesRepository.searchSanisettes(location) } returns expected
 
         // When
-        val result = useCase.invoke(location)
+        val result = cut.invoke(location)
 
         // Then
         assertTrue(result.isSuccess)
         assertEquals(expected, result.getOrNull())
-        coVerify { repository.searchSanisettes(location) }
+        coVerify { sanisettesRepository.searchSanisettes(location) }
     }
 
     @Test
@@ -51,10 +55,10 @@ class SearchSanisettesUseCaseTest {
             every { longitude } returns 2.3522
         }
         val exception = RuntimeException("error")
-        coEvery { repository.searchSanisettes(any()) } throws exception
+        coEvery { sanisettesRepository.searchSanisettes(any()) } throws exception
 
         // When
-        val result = useCase.invoke(location)
+        val result = cut.invoke(location)
 
         // Then
         assertTrue(result.isFailure)

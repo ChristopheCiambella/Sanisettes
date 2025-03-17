@@ -56,7 +56,7 @@ class ShouldFetchNewLocationDataUseCaseTest {
 
     @Test
     fun `should return true when distance is above threshold`() {
-        // Given : deux localisations éloignées (différence d'environ 0.01° => ~1110m)
+        // Given
         val previousLocation = mockk<Location> {
             every { latitude } returns 48.8566
             every { longitude } returns 2.3522

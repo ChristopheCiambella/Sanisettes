@@ -62,8 +62,8 @@ detektFormatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-forma
 
 tests-junit = { group = "junit", name = "junit", version.ref = "junit" }
 tests-mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
-testsCore = { group = "androidx.test", name = "core-ktx", version.ref = "testCore" }
-testsCoreTesting = { group = "androidx.arch.core", name = "core-testing", version.ref = "testCoreTesting" }
+tests-core = { group = "androidx.test", name = "core-ktx", version.ref = "testCore" }
+tests-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "testCoreTesting" }
 testsRules = { group = "androidx.test", name = "rules", version.ref = "testRules" }
 
 
