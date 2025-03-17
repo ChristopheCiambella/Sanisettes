@@ -6,7 +6,7 @@ import eu.ciambella.sanisettes.design.core.content.ContentProperty
 import eu.ciambella.sanisettes.design.core.topbar.TopAppBarProperty
 
 data class ScaffoldProperty(
-    val topAppBarProperty: TopAppBarProperty,
+    val topAppBarProperty: TopAppBarProperty? = null,
     val contentProperty: ContentProperty,
     val navigationBarProperty: NavigationBarProperty? = null,
     val bottomSheetContentProperty: BottomSheetProperty? = null,

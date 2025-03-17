@@ -12,6 +12,7 @@ import eu.ciambella.sanisettes.design.atoms.SimpleButtonProperty
 import eu.ciambella.sanisettes.design.atoms.button.SimpleButton
 import eu.ciambella.sanisettes.design.components.Loading
 import eu.ciambella.sanisettes.design.components.LoadingProperty
+import eu.ciambella.sanisettes.design.components.MapsProperty
 import eu.ciambella.sanisettes.design.components.SanisetteCard
 import eu.ciambella.sanisettes.design.components.SanisetteCardProperty
 import eu.ciambella.sanisettes.design.components.SanisetteCardShimmer
