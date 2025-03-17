@@ -1,6 +1,7 @@
 package eu.ciambella.sanisettes.present.screen.maps
 
 import eu.ciambella.sanisettes.design.atoms.SimpleButtonProperty
+import eu.ciambella.sanisettes.design.components.MapsProperty
 import eu.ciambella.sanisettes.design.components.MarkerProperty
 import eu.ciambella.sanisettes.design.core.bottomsheet.BottomSheetProperty
 import eu.ciambella.sanisettes.design.core.content.ContentProperty
@@ -29,13 +30,14 @@ class SanisetteMapsScreenMapper(
 
     companion object {
         private val PARIS_POSITION = 48.866667 to 2.333333
+        private const val PARIS_ZOOM = 11F
     }
 
     private fun scaffold(
         contentProperty: ContentProperty,
         bottomSheetContentProperty: BottomSheetProperty? = null,
         eventActionHandler: EventActionHandler,
-        topAppBarProperty: TopAppBarProperty
+        topAppBarProperty: TopAppBarProperty,
     ) = ScaffoldProperty(
         topAppBarProperty = topAppBarProperty,
         bottomSheetContentProperty = bottomSheetContentProperty,
@@ -52,9 +54,13 @@ class SanisetteMapsScreenMapper(
         eventActionHandler = eventActionHandler,
         topAppBarProperty = topAppBarPropertyMapper.mapSimpleTopAppBar(),
         contentProperty = MapsContentProperty(
-            onLocationChanged = { _, _ -> },
-            markers = emptyList(),
-            centerOnPosition = PARIS_POSITION
+            mapsProperty = MapsProperty(
+                markers = emptyList(),
+                centerOnPosition = PARIS_POSITION,
+                centerZoom = PARIS_ZOOM,
+                onLocationChanged = { _, _ -> }
+            ),
+            sheetProperty = null
         )
     )
 
@@ -88,15 +94,19 @@ class SanisetteMapsScreenMapper(
         onSanisetteClicked: (Sanisette) -> Unit,
         onLocationChanged: (Location) -> Unit,
     ) = MapsContentProperty(
-        onLocationChanged = { latitude, longitude ->
-            onLocationChanged.invoke(Location(latitude, longitude))
-        },
-        markers = mapSanisettesMarkers(
-            onlyPmrFilter = state.pmrFilterEnable,
-            sanisettes = state.sanisettes,
-            onSanisetteClicked = onSanisetteClicked
+        mapsProperty = MapsProperty(
+            markers = mapSanisettesMarkers(
+                onlyPmrFilter = state.pmrFilterEnable,
+                sanisettes = state.sanisettes,
+                onSanisetteClicked = onSanisetteClicked
+            ),
+            centerOnPosition = PARIS_POSITION,
+            centerZoom = PARIS_ZOOM,
+            onLocationChanged = { latitude, longitude ->
+                onLocationChanged.invoke(Location(latitude, longitude))
+            }
         ),
-        centerOnPosition = PARIS_POSITION
+        sheetProperty = null
     )
 
     private fun mapSanisettesMarkers(
@@ -129,7 +139,7 @@ class SanisetteMapsScreenMapper(
         val navigate = {
             eventActionHandler.handle(
                 Action.Navigation(
-                    navigationElement = NavigationElement.SanisetteNavigation(
+                    navigationElement = NavigationElement.Navigation(
                         address = sanisette.address
                     )
                 )

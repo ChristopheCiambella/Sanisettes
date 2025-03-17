@@ -18,7 +18,9 @@ fun MainScaffold(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = {
-            AppTopAppBar(property.topAppBarProperty)
+            property.topAppBarProperty?.also {
+                AppTopAppBar(it)
+            }
         },
         content = {
             property.bottomSheetContentProperty?.also { bottomSheet ->

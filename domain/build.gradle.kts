@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.detekt)
 }
 
@@ -37,6 +38,9 @@ dependencies {
 
     // Dependency injection
     implementation(libs.koin.core)
+
+    // Kotlin
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

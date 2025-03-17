@@ -51,6 +51,9 @@ dependencies {
     implementation(libs.koin.core)
     implementation(libs.koin.compose)
 
+    // Kotlin
+    implementation(libs.kotlinx.serialization.json)
+
     // Compose
     implementation(libs.androidx.navigation.compose)
     implementation(libs.accompanist.permissions)

@@ -2,7 +2,8 @@ package eu.ciambella.sanisettes.design.core.topbar
 
 sealed class TopAppBarProperty {
     data class SimpleAppBar(
-        val title: String
+        val title: String,
+        val onBackClicked: (() -> Unit)? = null
     ) : TopAppBarProperty()
 
     data class SwitchFilterAppBar(

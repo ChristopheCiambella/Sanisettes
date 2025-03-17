@@ -139,8 +139,8 @@ class SanisetteListScreenMapper(
             sanisetteCardMapper.map(it) {
                 eventActionHandler.handle(
                     Action.Navigation(
-                        navigationElement = NavigationElement.SanisetteNavigation(
-                            address = it.address
+                        navigationElement = NavigationElement.Details(
+                            sanisette = it
                         )
                     )
                 )
