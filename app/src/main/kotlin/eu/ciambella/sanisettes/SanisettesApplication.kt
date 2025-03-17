@@ -11,6 +11,7 @@ import eu.ciambella.sanisettes.di.providerModule
 import eu.ciambella.sanisettes.di.uiMapperModule
 import eu.ciambella.sanisettes.di.viewModelModule
 import eu.ciambella.sanisettes.domain.di.useCaseModule
+import eu.ciambella.sanisettes.present.di.presentModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -30,6 +31,7 @@ class SanisettesApplication : Application() {
                 listOf(
                     useCaseModule,
                     appModule,
+                    presentModule,
                     providerModule,
                     apiModule,
                     datasourceModule,

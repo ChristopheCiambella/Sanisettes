@@ -8,6 +8,8 @@ import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
 import eu.ciambella.sanisettes.domain.sanisette.usecase.GetSanisettesUseCase
 import eu.ciambella.sanisettes.domain.sanisette.usecase.SearchSanisettesUseCase
 import eu.ciambella.sanisettes.domain.sanisette.usecase.ShouldFetchNewLocationDataUseCase
+import eu.ciambella.sanisettes.domain.settings.usecase.ChangeOnlyFilterEnableUseCase
+import eu.ciambella.sanisettes.domain.settings.usecase.PmrOnlyFilterEnableUseCase
 import eu.ciambella.sanisettes.domain.utils.CoroutineDispatcherProvider
 import eu.ciambella.sanisettes.present.common.navigation.Action
 import eu.ciambella.sanisettes.present.common.navigation.ActionHandler
@@ -22,13 +24,19 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SanisetteMapsViewModel(
-    private val getSanisettesUseCase: GetSanisettesUseCase,
-    private val searchSanisettesUseCase: SearchSanisettesUseCase,
-    private val shouldFetchNewLocationDataUseCase: ShouldFetchNewLocationDataUseCase,
+    private val usesCases: UseCases,
     private val sanisetteMapsScreenMapper: SanisetteMapsScreenMapper,
     private val dispatcherProvider: CoroutineDispatcherProvider,
     private val actionHandler: ActionHandler,
 ) : ViewModel(), EventActionHandler {
+
+    class UseCases(
+        val getSanisettesUseCase: GetSanisettesUseCase,
+        val searchSanisettesUseCase: SearchSanisettesUseCase,
+        val shouldFetchNewLocationDataUseCase: ShouldFetchNewLocationDataUseCase,
+        val pmrOnlyFilterEnableUseCase: PmrOnlyFilterEnableUseCase,
+        val changeOnlyFilterEnableUseCase: ChangeOnlyFilterEnableUseCase,
+    )
 
     private val model = MutableStateFlow(
         SanisetteMapsState()
@@ -51,18 +59,32 @@ class SanisetteMapsViewModel(
         state = state,
         onSanisetteClicked = ::onSanisetteClicked,
         onBottomSheetDismiss = ::onBottomSheetDismiss,
-        onLocationChanged = ::requestSearchSanisetteOnPosition
+        onLocationChanged = ::requestSearchSanisetteOnPosition,
+        onPmrFilterValueChange = ::onPmrFilterValueChange
     )
 
     fun create() {
         viewModelScope.launch(dispatcherProvider.io) {
-            val result = getSanisettesUseCase.invoke()
+            val result = usesCases.getSanisettesUseCase.invoke()
             model.update {
                 it.copy(
                     firstSanisettesResult = result,
                     sanisettes = result.getOrNull()?.sanisettes ?: emptyList(),
                     searchLocation = null,
                 )
+            }
+        }
+        listenPmrFilterChange()
+    }
+
+    private fun listenPmrFilterChange() {
+        viewModelScope.launch(dispatcherProvider.io) {
+            usesCases.pmrOnlyFilterEnableUseCase.invoke().collect { enabled ->
+                model.update {
+                    it.copy(
+                        pmrFilterEnable = enabled,
+                    )
+                }
             }
         }
     }
@@ -84,7 +106,7 @@ class SanisetteMapsViewModel(
     }
 
     private fun requestSearchSanisetteOnPosition(location: Location) {
-        val needRequest = shouldFetchNewLocationDataUseCase.invoke(
+        val needRequest = usesCases.shouldFetchNewLocationDataUseCase.invoke(
             previousLocation = model.value.searchLocation,
             newLocation = location
         )
@@ -93,7 +115,7 @@ class SanisetteMapsViewModel(
         }
         loadingJob?.cancel()
         loadingJob = viewModelScope.launch(dispatcherProvider.io) {
-            val result = searchSanisettesUseCase.invoke(location)
+            val result = usesCases.searchSanisettesUseCase.invoke(location)
             model.update {
                 it.copy(
                     searchSanisettesResult = result,
@@ -101,6 +123,12 @@ class SanisetteMapsViewModel(
                     searchLocation = location
                 )
             }
+        }
+    }
+
+    private fun onPmrFilterValueChange(newValue: Boolean) {
+        viewModelScope.launch(dispatcherProvider.io) {
+            usesCases.changeOnlyFilterEnableUseCase.invoke(newValue)
         }
     }
 

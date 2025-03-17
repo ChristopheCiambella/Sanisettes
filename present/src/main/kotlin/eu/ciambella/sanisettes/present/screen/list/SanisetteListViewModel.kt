@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import eu.ciambella.sanisettes.design.core.scaffold.ScaffoldProperty
 import eu.ciambella.sanisettes.domain.sanisette.usecase.GetSanisettesUseCase
+import eu.ciambella.sanisettes.domain.settings.usecase.ChangeOnlyFilterEnableUseCase
+import eu.ciambella.sanisettes.domain.settings.usecase.PmrOnlyFilterEnableUseCase
 import eu.ciambella.sanisettes.domain.utils.CoroutineDispatcherProvider
 import eu.ciambella.sanisettes.present.common.navigation.Action
 import eu.ciambella.sanisettes.present.common.navigation.ActionHandler
@@ -19,6 +21,8 @@ import kotlinx.coroutines.launch
 class SanisetteListViewModel(
     private val sanisetteListScreenMapper: SanisetteListScreenMapper,
     private val getSanisettesUseCase: GetSanisettesUseCase,
+    private val pmrOnlyFilterEnableUseCase: PmrOnlyFilterEnableUseCase,
+    private val changeOnlyFilterEnableUseCase: ChangeOnlyFilterEnableUseCase,
     private val dispatcherProvider: CoroutineDispatcherProvider,
     private val actionHandler: ActionHandler,
 ) : ViewModel(), EventActionHandler {
@@ -40,15 +44,29 @@ class SanisetteListViewModel(
     ): ScaffoldProperty = sanisetteListScreenMapper.map(
         state = state,
         eventActionHandler = this,
-        onNextPageRequested = ::requestNextPageData
+        onNextPageRequested = ::requestNextPageData,
+        onPmrFilterValueChange = ::onPmrFilterValueChange
     )
 
     fun create() {
         requestFirstPageData()
+        listenPmrFilterChange()
     }
 
     fun onLocationPermissionGranted() {
         requestFirstPageData()
+    }
+
+    private fun listenPmrFilterChange() {
+        viewModelScope.launch(dispatcherProvider.io) {
+            pmrOnlyFilterEnableUseCase.invoke().collect { enabled ->
+                model.update {
+                    it.copy(
+                        pmrFilterEnable = enabled,
+                    )
+                }
+            }
+        }
     }
 
     private fun requestFirstPageData() {
@@ -59,7 +77,7 @@ class SanisetteListViewModel(
                 it.copy(
                     firstSanisettesResult = result,
                     sanisettes = sanisettes?.sanisettes ?: emptyList(),
-                    nextOffset = sanisettes?.nextOffset
+                    nextOffset = sanisettes?.nextOffset,
                 )
             }
         }
@@ -76,6 +94,12 @@ class SanisetteListViewModel(
                     nextOffset = sanisettes?.nextOffset
                 )
             }
+        }
+    }
+
+    private fun onPmrFilterValueChange(newValue: Boolean) {
+        viewModelScope.launch(dispatcherProvider.io) {
+            changeOnlyFilterEnableUseCase.invoke(newValue)
         }
     }
 

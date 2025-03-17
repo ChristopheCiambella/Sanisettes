@@ -9,11 +9,11 @@ import eu.ciambella.sanisettes.design.core.content.LazyColumnContentProperty
 import eu.ciambella.sanisettes.design.core.scaffold.ScaffoldProperty
 import eu.ciambella.sanisettes.design.core.topbar.TopAppBarProperty
 import eu.ciambella.sanisettes.domain.logger.LoggerProvider
-import eu.ciambella.sanisettes.present.R
 import eu.ciambella.sanisettes.present.common.mapper.ErrorPropertyMapper
 import eu.ciambella.sanisettes.present.common.mapper.NavigationBarPropertyMapper
 import eu.ciambella.sanisettes.present.common.mapper.RouteNavigationBarProperty
 import eu.ciambella.sanisettes.present.common.mapper.SanisetteCardMapper
+import eu.ciambella.sanisettes.present.common.mapper.TopAppBarPropertyMapper
 import eu.ciambella.sanisettes.present.common.navigation.Action
 import eu.ciambella.sanisettes.present.common.navigation.EventActionHandler
 import eu.ciambella.sanisettes.present.common.navigation.NavigationElement
@@ -22,6 +22,7 @@ class SanisetteListScreenMapper(
     private val navigationBarPropertyMapper: NavigationBarPropertyMapper,
     private val sanisetteCardMapper: SanisetteCardMapper,
     private val errorPropertyMapper: ErrorPropertyMapper,
+    private val topAppBarPropertyMapper: TopAppBarPropertyMapper,
     private val loggerProvider: LoggerProvider,
 ) {
 
@@ -31,11 +32,10 @@ class SanisetteListScreenMapper(
 
     private fun scaffold(
         contentProperty: ContentProperty,
+        topAppBarProperty: TopAppBarProperty,
         eventActionHandler: EventActionHandler,
     ) = ScaffoldProperty(
-        topAppBarProperty = TopAppBarProperty.Default(
-            titleResId = R.string.app_name
-        ),
+        topAppBarProperty = topAppBarProperty,
         contentProperty = contentProperty,
         navigationBarProperty = navigationBarPropertyMapper.main(
             selectedRoute = RouteNavigationBarProperty.LIST,
@@ -47,6 +47,7 @@ class SanisetteListScreenMapper(
         eventActionHandler: EventActionHandler,
     ): ScaffoldProperty = scaffold(
         eventActionHandler = eventActionHandler,
+        topAppBarProperty = topAppBarPropertyMapper.mapSimpleTopAppBar(),
         contentProperty = LazyColumnContentProperty(
             scrollEnabled = false,
             items = mutableListOf(
@@ -69,14 +70,20 @@ class SanisetteListScreenMapper(
     fun map(
         state: SanisetteListState,
         eventActionHandler: EventActionHandler,
-        onNextPageRequested: (Int) -> Unit
+        onNextPageRequested: (Int) -> Unit,
+        onPmrFilterValueChange: (Boolean) -> Unit,
     ): ScaffoldProperty {
         if (state.firstSanisettesResult == null) {
             return loading(eventActionHandler)
         }
+        val topAppBarProperty = topAppBarPropertyMapper.mapPmrFilterTopAppBar(
+            pmrFilterEnable = state.pmrFilterEnable,
+            onPmrFilterValueChange = onPmrFilterValueChange
+        )
         return state.firstSanisettesResult.fold(
             onSuccess = {
                 scaffold(
+                    topAppBarProperty = topAppBarProperty,
                     eventActionHandler = eventActionHandler,
                     contentProperty = LazyColumnContentProperty(
                         items = mapScreen(
@@ -90,6 +97,7 @@ class SanisetteListScreenMapper(
             onFailure = {
                 loggerProvider.e(TAG, "Error while loading sanisettes", it)
                 scaffold(
+                    topAppBarProperty = topAppBarProperty,
                     eventActionHandler = eventActionHandler,
                     contentProperty = ErrorContentProperty(
                         property = errorPropertyMapper.mapUnknownError()
@@ -119,15 +127,24 @@ class SanisetteListScreenMapper(
     private fun mapSanisettes(
         state: SanisetteListState,
         eventActionHandler: EventActionHandler,
-    ): List<Property> = state.sanisettes.map {
-        sanisetteCardMapper.map(it) {
-            eventActionHandler.handle(
-                Action.Navigation(
-                    navigationElement = NavigationElement.SanisetteNavigation(
-                        address = it.address
+    ): List<Property> {
+        val filtered = if (state.pmrFilterEnable) {
+            state.sanisettes.filter {
+                it.isPmr
+            }
+        } else {
+            state.sanisettes
+        }
+        return filtered.map {
+            sanisetteCardMapper.map(it) {
+                eventActionHandler.handle(
+                    Action.Navigation(
+                        navigationElement = NavigationElement.SanisetteNavigation(
+                            address = it.address
+                        )
                     )
                 )
-            )
+            }
         }
     }
 }
