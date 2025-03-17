@@ -51,7 +51,8 @@ class SanisetteMapsViewModel(
         state = state,
         onSanisetteClicked = ::onSanisetteClicked,
         onBottomSheetDismiss = ::onBottomSheetDismiss,
-        onLocationChanged = ::requestSearchSanisetteOnPosition
+        onLocationChanged = ::requestSearchSanisetteOnPosition,
+        onPmrFilterValueChange = ::onPmrFilterValueChange
     )
 
     fun create() {
@@ -101,6 +102,14 @@ class SanisetteMapsViewModel(
                     searchLocation = location
                 )
             }
+        }
+    }
+
+    private fun onPmrFilterValueChange(newValue: Boolean) {
+        model.update {
+            it.copy(
+                pmrFilterEnable = newValue
+            )
         }
     }
 

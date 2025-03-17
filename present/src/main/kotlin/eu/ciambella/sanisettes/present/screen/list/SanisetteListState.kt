@@ -8,4 +8,5 @@ data class SanisetteListState(
     val nextSanisettesResult: Result<Sanisettes>? = null,
     val sanisettes: List<Sanisette> = emptyList(),
     val nextOffset: Int? = null,
+    val pmrFilterEnable: Boolean = false,
 )

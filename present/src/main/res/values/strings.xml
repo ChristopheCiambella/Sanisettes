@@ -2,6 +2,7 @@
 <resources>
     <!-- Main -->
     <string name="app_name">Sanisette</string>
+    <string name="pmr">PMR</string>
 
     <!-- Bottom Navigation Bar -->
     <string name="bottom_menu_list">Liste</string>

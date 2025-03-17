@@ -7,6 +7,7 @@ fun AppTopAppBar(
     property: TopAppBarProperty,
 ) {
     when (property) {
-        is TopAppBarProperty.Default -> TopAppBarDefault(property)
+        is TopAppBarProperty.SimpleAppBar -> TopAppBarSimple(property)
+        is TopAppBarProperty.SwitchFilterAppBar -> TopAppBarSwitchFilter(property)
     }
 }

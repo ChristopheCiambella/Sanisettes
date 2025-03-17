@@ -9,5 +9,6 @@ data class SanisetteMapsState(
     val searchSanisettesResult: Result<Sanisettes>? = null,
     val sanisettes: List<Sanisette> = emptyList(),
     val sanisetteDetails: Sanisette? = null,
-    val searchLocation: Location? = null
+    val searchLocation: Location? = null,
+    val pmrFilterEnable: Boolean = false,
 )

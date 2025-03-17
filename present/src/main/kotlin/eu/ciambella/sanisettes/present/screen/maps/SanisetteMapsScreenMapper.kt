@@ -11,16 +11,20 @@ import eu.ciambella.sanisettes.design.core.topbar.TopAppBarProperty
 import eu.ciambella.sanisettes.domain.location.model.Location
 import eu.ciambella.sanisettes.domain.sanisette.model.Sanisette
 import eu.ciambella.sanisettes.present.R
+import eu.ciambella.sanisettes.present.common.mapper.MarkerPropertyMapper
 import eu.ciambella.sanisettes.present.common.mapper.NavigationBarPropertyMapper
 import eu.ciambella.sanisettes.present.common.mapper.RouteNavigationBarProperty
 import eu.ciambella.sanisettes.present.common.mapper.SanisetteCardMapper
+import eu.ciambella.sanisettes.present.common.mapper.TopAppBarPropertyMapper
 import eu.ciambella.sanisettes.present.common.navigation.Action
 import eu.ciambella.sanisettes.present.common.navigation.EventActionHandler
 import eu.ciambella.sanisettes.present.common.navigation.NavigationElement
 
 class SanisetteMapsScreenMapper(
+    private val topAppBarPropertyMapper: TopAppBarPropertyMapper,
     private val navigationBarPropertyMapper: NavigationBarPropertyMapper,
     private val sanisetteCardMapper: SanisetteCardMapper,
+    private val markerPropertyMapper: MarkerPropertyMapper,
 ) {
 
     companion object {
@@ -31,10 +35,9 @@ class SanisetteMapsScreenMapper(
         contentProperty: ContentProperty,
         bottomSheetContentProperty: BottomSheetProperty? = null,
         eventActionHandler: EventActionHandler,
+        topAppBarProperty: TopAppBarProperty
     ) = ScaffoldProperty(
-        topAppBarProperty = TopAppBarProperty.Default(
-            titleResId = R.string.app_name
-        ),
+        topAppBarProperty = topAppBarProperty,
         bottomSheetContentProperty = bottomSheetContentProperty,
         contentProperty = contentProperty,
         navigationBarProperty = navigationBarPropertyMapper.main(
@@ -47,6 +50,7 @@ class SanisetteMapsScreenMapper(
         eventActionHandler: EventActionHandler,
     ): ScaffoldProperty = scaffold(
         eventActionHandler = eventActionHandler,
+        topAppBarProperty = topAppBarPropertyMapper.mapSimpleTopAppBar(),
         contentProperty = MapsContentProperty(
             onLocationChanged = { _, _ -> },
             markers = emptyList(),
@@ -60,7 +64,12 @@ class SanisetteMapsScreenMapper(
         onSanisetteClicked: (Sanisette) -> Unit,
         onLocationChanged: (Location) -> Unit,
         onBottomSheetDismiss: () -> Unit,
+        onPmrFilterValueChange: (Boolean) -> Unit,
     ): ScaffoldProperty = scaffold(
+        topAppBarProperty = topAppBarPropertyMapper.mapPmrFilterTopAppBar(
+            pmrFilterEnable = state.pmrFilterEnable,
+            onPmrFilterValueChange = onPmrFilterValueChange
+        ),
         bottomSheetContentProperty = mapSanisetteDetails(
             sanisette = state.sanisetteDetails,
             onBottomSheetDismiss = onBottomSheetDismiss,
@@ -68,14 +77,14 @@ class SanisetteMapsScreenMapper(
         ),
         eventActionHandler = eventActionHandler,
         contentProperty = mapMapsContent(
-            sanisettes = state.sanisettes,
+            state = state,
             onSanisetteClicked = onSanisetteClicked,
             onLocationChanged = onLocationChanged
         )
     )
 
     private fun mapMapsContent(
-        sanisettes: List<Sanisette>?,
+        state: SanisetteMapsState,
         onSanisetteClicked: (Sanisette) -> Unit,
         onLocationChanged: (Location) -> Unit,
     ) = MapsContentProperty(
@@ -83,25 +92,31 @@ class SanisetteMapsScreenMapper(
             onLocationChanged.invoke(Location(latitude, longitude))
         },
         markers = mapSanisettesMarkers(
-            sanisettes = sanisettes,
+            onlyPmrFilter = state.pmrFilterEnable,
+            sanisettes = state.sanisettes,
             onSanisetteClicked = onSanisetteClicked
         ),
         centerOnPosition = PARIS_POSITION
     )
 
     private fun mapSanisettesMarkers(
+        onlyPmrFilter: Boolean,
         sanisettes: List<Sanisette>?,
         onSanisetteClicked: (Sanisette) -> Unit,
-    ): List<MarkerProperty> = sanisettes?.map {
-        MarkerProperty(
-            latitude = it.location.latitude,
-            longitude = it.location.longitude,
-            title = it.address,
-            onClick = {
+    ): List<MarkerProperty> {
+        val filtered = if (onlyPmrFilter) {
+            sanisettes?.filter {
+                it.isPmr
+            }
+        } else {
+            sanisettes
+        } ?: emptyList()
+        return filtered.map {
+            markerPropertyMapper.map(it) {
                 onSanisetteClicked.invoke(it)
             }
-        )
-    } ?: emptyList()
+        }
+    }
 
     private fun mapSanisetteDetails(
         sanisette: Sanisette?,

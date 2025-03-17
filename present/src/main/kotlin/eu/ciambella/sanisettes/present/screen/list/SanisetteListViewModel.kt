@@ -40,7 +40,8 @@ class SanisetteListViewModel(
     ): ScaffoldProperty = sanisetteListScreenMapper.map(
         state = state,
         eventActionHandler = this,
-        onNextPageRequested = ::requestNextPageData
+        onNextPageRequested = ::requestNextPageData,
+        onPmrFilterValueChange = ::onPmrFilterValueChange
     )
 
     fun create() {
@@ -76,6 +77,14 @@ class SanisetteListViewModel(
                     nextOffset = sanisettes?.nextOffset
                 )
             }
+        }
+    }
+
+    private fun onPmrFilterValueChange(newValue: Boolean) {
+        model.update {
+            it.copy(
+                pmrFilterEnable = newValue
+            )
         }
     }
 
