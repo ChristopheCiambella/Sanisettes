@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class Sanisette(
     val address: String,
     val isPmr: Boolean,
-    val openingHours: String,
-    val distance: String,
+    val openingHours: String?,
+    val distanceInMeter: Double?,
     val location: Location
 )

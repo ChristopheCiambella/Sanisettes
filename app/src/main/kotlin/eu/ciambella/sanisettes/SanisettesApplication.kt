@@ -3,7 +3,6 @@ package eu.ciambella.sanisettes
 import android.app.Application
 import eu.ciambella.sanisettes.data.di.apiModule
 import eu.ciambella.sanisettes.data.di.dataMapperModule
-import eu.ciambella.sanisettes.data.di.datasourceModule
 import eu.ciambella.sanisettes.data.di.datastoreModule
 import eu.ciambella.sanisettes.data.di.repositoryModule
 import eu.ciambella.sanisettes.di.appModule
@@ -34,7 +33,6 @@ class SanisettesApplication : Application() {
                     presentModule,
                     providerModule,
                     apiModule,
-                    datasourceModule,
                     datastoreModule,
                     dataMapperModule,
                     repositoryModule,

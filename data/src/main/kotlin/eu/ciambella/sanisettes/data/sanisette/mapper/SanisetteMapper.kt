@@ -14,8 +14,6 @@ class SanisetteMapper(
     companion object {
         private const val TAG = "SanisetteResponseMapper"
         private const val TRUE = "Oui"
-        private const val DISTANCE_FORMAT = "%.3fkm"
-        private const val UNAVAILABLE = "----"
     }
 
     fun map(
@@ -33,9 +31,9 @@ class SanisetteMapper(
         return Sanisette(
             address = formatAddress(result.adresse),
             isPmr = result.accesPmr == TRUE,
-            openingHours = result.horaire ?: UNAVAILABLE,
+            openingHours = result.horaire,
             location = location,
-            distance = calcDistance(
+            distanceInMeter = calcDistance(
                 currentLocation = currentLocation,
                 sanisetteLocation = location
             )
@@ -57,9 +55,9 @@ class SanisetteMapper(
         return Sanisette(
             address = formatAddress(result.adresse),
             isPmr = result.accesPmr == TRUE,
-            openingHours = result.horaire ?: UNAVAILABLE,
+            openingHours = result.horaire,
             location = location,
-            distance = calcDistance(
+            distanceInMeter = calcDistance(
                 currentLocation = currentLocation,
                 sanisetteLocation = location
             )
@@ -70,28 +68,16 @@ class SanisetteMapper(
         input: String,
     ) = input.trim().replace(Regex("\\s+"), " ")
 
-    private fun formatDistance(
-        distanceInMeters: Double,
-    ): String {
-        return if (distanceInMeters < 1000) {
-            "${distanceInMeters.toInt()}m"
-        } else {
-            val distanceInKm = distanceInMeters / 1000.0
-            DISTANCE_FORMAT.format(distanceInKm)
-        }
-    }
-
     private fun calcDistance(
         currentLocation: Location?,
         sanisetteLocation: Location,
-    ): String {
+    ): Double? {
         if (currentLocation == null) {
-            return UNAVAILABLE
+            return null
         }
-        val distance = DistanceUtils.calcHaversineDistance(
+        return DistanceUtils.calcHaversineDistance(
             locationA = currentLocation,
             locationB = sanisetteLocation
         )
-        return formatDistance(distance)
     }
 }

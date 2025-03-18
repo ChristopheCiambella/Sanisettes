@@ -3,6 +3,7 @@
     <!-- Main -->
     <string name="app_name">Sanisette</string>
     <string name="pmr">PMR</string>
+    <string name="unavailable">----</string>
 
     <!-- Bottom Navigation Bar -->
     <string name="bottom_menu_list">Liste</string>
