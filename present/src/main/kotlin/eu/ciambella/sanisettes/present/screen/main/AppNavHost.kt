@@ -9,8 +9,8 @@ import androidx.navigation.compose.NavHost
 import eu.ciambella.sanisettes.present.common.navigation.MainNavigator
 import eu.ciambella.sanisettes.present.common.navigation.NavigationConsumer
 import eu.ciambella.sanisettes.present.screen.details.detailsScreen
-import eu.ciambella.sanisettes.present.screen.list.sanisetteListScreen
-import eu.ciambella.sanisettes.present.screen.maps.sanisetteMapsScreen
+import eu.ciambella.sanisettes.present.screen.list.listScreen
+import eu.ciambella.sanisettes.present.screen.maps.mapsScreen
 import org.koin.compose.koinInject
 
 @Composable
@@ -35,9 +35,9 @@ fun AppNavHost(
             startDestination = startDestination,
             modifier = modifier
         ) {
-            sanisetteListScreen()
+            listScreen()
             detailsScreen()
-            sanisetteMapsScreen()
+            mapsScreen()
         }
     }
 }

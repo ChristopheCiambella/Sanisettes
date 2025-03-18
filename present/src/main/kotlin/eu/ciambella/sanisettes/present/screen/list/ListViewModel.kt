@@ -18,8 +18,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SanisetteListViewModel(
-    private val sanisetteListScreenMapper: SanisetteListScreenMapper,
+class ListViewModel(
+    private val listScreenMapper: ListScreenMapper,
     private val getSanisettesUseCase: GetSanisettesUseCase,
     private val pmrOnlyFilterEnableUseCase: PmrOnlyFilterEnableUseCase,
     private val changeOnlyFilterEnableUseCase: ChangeOnlyFilterEnableUseCase,
@@ -28,7 +28,7 @@ class SanisetteListViewModel(
 ) : ViewModel(), EventActionHandler {
 
     private val model = MutableStateFlow(
-        SanisetteListState()
+        ListState()
     )
 
     val state: StateFlow<ScaffoldProperty> = model.map {
@@ -36,12 +36,12 @@ class SanisetteListViewModel(
     }.stateIn(
         viewModelScope,
         SharingStarted.Eagerly,
-        sanisetteListScreenMapper.loading(this)
+        listScreenMapper.loading(this)
     )
 
     private fun mapToUI(
-        state: SanisetteListState
-    ): ScaffoldProperty = sanisetteListScreenMapper.map(
+        state: ListState
+    ): ScaffoldProperty = listScreenMapper.map(
         state = state,
         eventActionHandler = this,
         onNextPageRequested = ::requestNextPageData,

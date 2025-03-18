@@ -43,6 +43,6 @@ fun NavGraphBuilder.detailsScreen() {
             }
         )
     ) {
-        SanisetteDetailsRoute()
+        DetailsRoute()
     }
 }

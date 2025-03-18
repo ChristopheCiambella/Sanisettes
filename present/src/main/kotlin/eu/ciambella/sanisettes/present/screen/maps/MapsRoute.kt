@@ -12,9 +12,9 @@ import eu.ciambella.sanisettes.design.core.scaffold.MainScaffold
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun SanisetteMapsRoute(
+internal fun MapsRoute(
     modifier: Modifier = Modifier,
-    viewModel: SanisetteMapsViewModel = koinViewModel(),
+    viewModel: MapsViewModel = koinViewModel(),
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
     val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)

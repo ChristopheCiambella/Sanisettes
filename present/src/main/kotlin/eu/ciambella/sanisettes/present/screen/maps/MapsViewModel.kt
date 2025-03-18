@@ -23,9 +23,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SanisetteMapsViewModel(
+class MapsViewModel(
     private val usesCases: UseCases,
-    private val sanisetteMapsScreenMapper: SanisetteMapsScreenMapper,
+    private val mapsScreenMapper: MapsScreenMapper,
     private val dispatcherProvider: CoroutineDispatcherProvider,
     private val actionHandler: ActionHandler,
 ) : ViewModel(), EventActionHandler {
@@ -39,7 +39,7 @@ class SanisetteMapsViewModel(
     )
 
     private val model = MutableStateFlow(
-        SanisetteMapsState()
+        MapsState()
     )
 
     private var loadingJob: Job? = null
@@ -49,12 +49,12 @@ class SanisetteMapsViewModel(
     }.stateIn(
         viewModelScope,
         SharingStarted.Eagerly,
-        sanisetteMapsScreenMapper.loading(this)
+        mapsScreenMapper.loading(this)
     )
 
     private fun mapToUI(
-        state: SanisetteMapsState,
-    ): ScaffoldProperty = sanisetteMapsScreenMapper.map(
+        state: MapsState,
+    ): ScaffoldProperty = mapsScreenMapper.map(
         eventActionHandler = this,
         state = state,
         onSanisetteClicked = ::onSanisetteClicked,

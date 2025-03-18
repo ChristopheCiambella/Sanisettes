@@ -18,7 +18,7 @@ import eu.ciambella.sanisettes.present.common.navigation.Action
 import eu.ciambella.sanisettes.present.common.navigation.EventActionHandler
 import eu.ciambella.sanisettes.present.common.navigation.NavigationElement
 
-class SanisetteListScreenMapper(
+class ListScreenMapper(
     private val navigationBarPropertyMapper: NavigationBarPropertyMapper,
     private val sanisetteCardMapper: SanisetteCardMapper,
     private val errorPropertyMapper: ErrorPropertyMapper,
@@ -68,7 +68,7 @@ class SanisetteListScreenMapper(
     )
 
     fun map(
-        state: SanisetteListState,
+        state: ListState,
         eventActionHandler: EventActionHandler,
         onNextPageRequested: (Int) -> Unit,
         onPmrFilterValueChange: (Boolean) -> Unit,
@@ -108,7 +108,7 @@ class SanisetteListScreenMapper(
     }
 
     private fun mapScreen(
-        state: SanisetteListState,
+        state: ListState,
         onNextPageRequested: (Int) -> Unit,
         eventActionHandler: EventActionHandler,
     ): List<Property> = mutableListOf<Property>().apply {
@@ -125,7 +125,7 @@ class SanisetteListScreenMapper(
     }
 
     private fun mapSanisettes(
-        state: SanisetteListState,
+        state: ListState,
         eventActionHandler: EventActionHandler,
     ): List<Property> {
         val filtered = if (state.pmrFilterEnable) {

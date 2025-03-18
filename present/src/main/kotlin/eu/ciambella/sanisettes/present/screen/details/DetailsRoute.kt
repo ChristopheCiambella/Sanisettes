@@ -7,7 +7,7 @@ import eu.ciambella.sanisettes.design.core.scaffold.MainScaffold
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun SanisetteDetailsRoute(
+internal fun DetailsRoute(
     modifier: Modifier = Modifier,
     viewModel: DetailsViewModel = koinViewModel(),
 ) {

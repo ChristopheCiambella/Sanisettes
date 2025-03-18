@@ -3,8 +3,8 @@ package eu.ciambella.sanisettes.present.common.navigation
 import android.content.Context
 import androidx.navigation.NavHostController
 import eu.ciambella.sanisettes.present.screen.details.navigateToDetails
-import eu.ciambella.sanisettes.present.screen.list.navigateToSanisetteList
-import eu.ciambella.sanisettes.present.screen.maps.navigateToSanisetteMaps
+import eu.ciambella.sanisettes.present.screen.list.navigateToList
+import eu.ciambella.sanisettes.present.screen.maps.navigateToMaps
 import eu.ciambella.sanisettes.present.utils.ExternalIntentUtils
 
 class NavigationConsumer(
@@ -18,9 +18,9 @@ class NavigationConsumer(
         when (navigationElement) {
             NavigationElement.Up -> navHostController.popBackStack()
 
-            NavigationElement.SanisetteList -> navHostController.navigateToSanisetteList()
+            NavigationElement.SanisetteList -> navHostController.navigateToList()
 
-            NavigationElement.SanisetteMaps -> navHostController.navigateToSanisetteMaps()
+            NavigationElement.SanisetteMaps -> navHostController.navigateToMaps()
 
             is NavigationElement.Details -> navHostController.navigateToDetails(
                 navigationElement.sanisette

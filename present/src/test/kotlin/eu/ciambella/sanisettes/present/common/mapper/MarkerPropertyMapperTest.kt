@@ -20,11 +20,11 @@ class MarkerPropertyMapperTest {
     @Test
     fun `map returns correct MarkerProperty`() {
         // Given
-        val sanisette = mockk<Sanisette>{
+        val sanisette = mockk<Sanisette> {
             every { address } returns "Test Address"
             every { location } returns mockk<Location> {
-                every { latitude  } returns 48.8566
-                every { longitude } returns  2.3522
+                every { latitude } returns 48.8566
+                every { longitude } returns 2.3522
             }
         }
 

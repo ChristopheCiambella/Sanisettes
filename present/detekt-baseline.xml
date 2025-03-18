@@ -2,6 +2,6 @@
 <SmellBaseline>
   <ManuallySuppressedIssues></ManuallySuppressedIssues>
   <CurrentIssues>
-    <ID>LongParameterList:SanisetteMapsScreenMapper.kt$SanisetteMapsScreenMapper$( state: SanisetteMapsState, eventActionHandler: EventActionHandler, onSanisetteClicked: (Sanisette) -&gt; Unit, onLocationChanged: (Location) -&gt; Unit, onBottomSheetDismiss: () -&gt; Unit, onPmrFilterValueChange: (Boolean) -&gt; Unit, )</ID>
+    <ID>LongParameterList:MapsScreenMapper.kt$MapsScreenMapper$( state: MapsState, eventActionHandler: EventActionHandler, onSanisetteClicked: (Sanisette) -&gt; Unit, onLocationChanged: (Location) -&gt; Unit, onBottomSheetDismiss: () -&gt; Unit, onPmrFilterValueChange: (Boolean) -&gt; Unit, )</ID>
   </CurrentIssues>
 </SmellBaseline>

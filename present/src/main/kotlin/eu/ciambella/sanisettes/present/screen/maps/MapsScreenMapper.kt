@@ -21,7 +21,7 @@ import eu.ciambella.sanisettes.present.common.navigation.Action
 import eu.ciambella.sanisettes.present.common.navigation.EventActionHandler
 import eu.ciambella.sanisettes.present.common.navigation.NavigationElement
 
-class SanisetteMapsScreenMapper(
+class MapsScreenMapper(
     private val topAppBarPropertyMapper: TopAppBarPropertyMapper,
     private val navigationBarPropertyMapper: NavigationBarPropertyMapper,
     private val sanisetteCardMapper: SanisetteCardMapper,
@@ -65,7 +65,7 @@ class SanisetteMapsScreenMapper(
     )
 
     fun map(
-        state: SanisetteMapsState,
+        state: MapsState,
         eventActionHandler: EventActionHandler,
         onSanisetteClicked: (Sanisette) -> Unit,
         onLocationChanged: (Location) -> Unit,
@@ -90,7 +90,7 @@ class SanisetteMapsScreenMapper(
     )
 
     private fun mapMapsContent(
-        state: SanisetteMapsState,
+        state: MapsState,
         onSanisetteClicked: (Sanisette) -> Unit,
         onLocationChanged: (Location) -> Unit,
     ) = MapsContentProperty(

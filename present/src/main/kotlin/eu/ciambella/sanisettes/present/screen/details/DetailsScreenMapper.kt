@@ -47,7 +47,7 @@ class DetailsScreenMapper(
         eventActionHandler = eventActionHandler,
         contentProperty = LazyColumnContentProperty(
             scrollEnabled = false,
-            items = mutableListOf()
+            items = listOf()
         )
     )
 

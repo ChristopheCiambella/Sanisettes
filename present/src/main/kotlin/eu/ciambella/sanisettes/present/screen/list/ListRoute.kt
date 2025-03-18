@@ -19,9 +19,9 @@ import eu.ciambella.sanisettes.design.core.scaffold.MainScaffold
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun SanisetteListRoute(
+internal fun ListRoute(
     modifier: Modifier = Modifier,
-    viewModel: SanisetteListViewModel = koinViewModel(),
+    viewModel: ListViewModel = koinViewModel(),
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
     val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
@@ -46,7 +46,7 @@ internal fun SanisetteListRoute(
 }
 
 @Composable
-fun HandlePermissionRequester(viewModel: SanisetteListViewModel) {
+fun HandlePermissionRequester(viewModel: ListViewModel) {
     val context = LocalContext.current
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
