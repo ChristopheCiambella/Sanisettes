@@ -1,6 +1,6 @@
 # Android Test Technique – Public Toilets (Sanisette)
 
-This project is an Android application developed as a technical test for displaying and managing public toilets in Paris. The app fetches data from the RATP Open Data API and displays a list of public toilets along with key details.
+This project is an Android application developed as a technical test for displaying public toilets in Paris. The app fetches data from the RATP Open Data API and displays a list of public toilets along with key details.
 
 ---
 
