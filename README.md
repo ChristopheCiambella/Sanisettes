@@ -49,7 +49,7 @@ The goal of this application is to:
   Navigate to a dedicated detail screen when a toilet is selected.
 
 - **Interactive Map**  
-  Display toilets on a map with markers that are styled differently based on their PMR accessibility.
+  Display toilets on a map with markers.
 
 - **External Navigation**  
   Allow opening the toilet’s address in an external mapping application to display directions.
@@ -62,17 +62,24 @@ The goal of this application is to:
 
 This project follows Clean Architecture principles:
 
-- **Domain**  
+- **domain**  
   Contains pure business logic (use cases, models, and abstract interfaces).
 
-- **Data**  
-  Handles network calls, persistence (e.g., DataStore), and mappers (e.g., `RecordsResponseMapper`).
+- **data**  
+  Handles network calls, persistence (DataStore), and mappers.
 
-- **Presentation**  
+- **present**  
   Implemented using Jetpack Compose for UI and navigation.
 
-- **Dependency Injection**  
-  Utilizes Koin to inject dependencies without tying the domain layer to Android-specific classes.
+- **app**  
+  Contains Android application class and Koin modules declaration to inject dependencies in entire project.
+
+- **design-system-property**
+  Defines UI properties in a simple, platform-agnostic manner
+
+- **design-system**
+  Jetpack Compose components, each corresponding to a `Property` from `design-system-property`
+
 
 ### Technologies Used
 
@@ -91,8 +98,9 @@ This project follows Clean Architecture principles:
 ### Prerequisites
 
 - Android Studio (Bumblebee or later)
-- Android SDK 31 or higher
+- Android SDK 23 or higher
 - Internet connection (to access the Open Data API)
+- Google Api keys
 
 ### Steps
 
@@ -103,11 +111,21 @@ This project follows Clean Architecture principles:
     - Open Android Studio and choose **File > Open**.
     - Select the project directory.
 
-3. **Build the Project**
+3. **Request google console for API keys**
+
+    To add your Maps API key to this project:
+    1. If the secrets.properties file does not exist, create it in the same folder as the local.properties file.
+    2. Add this line, where YOUR_API_KEY is your API key:
+
+```      
+       MAPS_API_KEY=YOUR_API_KEY
+`````
+
+4. **Build the Project**
 
     - Let Gradle download all required dependencies (Koin, Jetpack Compose, etc.).
 
-4. **Run the Application**
+5. **Run the Application**
 
     - Choose an emulator or a physical device.
     - Click the **Run** button in Android Studio.
@@ -127,32 +145,11 @@ You can run the tests using Android Studio's test runner or from the command lin
 ```bash
 ./gradlew test
 ````
----
-
-## Improvements & Bonus Features
-
-### Possible Improvements
-
-- Optimize Distance Calculation
-  Enhance the distance calculation (e.g., using the Haversine formula).
-
-- Enhanced Permission Handling
-  Improve the request and management of location permissions.
-
-### Implemented Bonus Features
-
-- Toilet Details Screen
-  Navigate to a dedicated screen that displays complete details of a selected toilet.
-
-- Interactive Map
-  Display toilets on a map with custom markers differentiating PMR-accessible toilets.
-
-- External Navigation Integration
-  Provide an option to open the toilet’s address in an external navigation app to display directions.
 
 ---
 
 ## Conclusion
+
 This project meets the technical test requirements by providing a functional, well-architected, and easily extensible Android application. The code demonstrates modern Android development practices, including Clean Architecture, Jetpack Compose, Koin for dependency injection, and more.
 
 If you have any questions or suggestions, please feel free to contact me.

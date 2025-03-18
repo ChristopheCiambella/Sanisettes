@@ -44,17 +44,14 @@ dependencies {
 
     // Kotlin
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlinx.coroutines.core)
 
     // Retrofit
     implementation(libs.retrofit2)
     implementation(libs.retrofit2.json)
     implementation(libs.okhttp3)
 
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    // Tests
+    testImplementation(libs.tests.junit)
+    testImplementation(libs.tests.mockk)
 }

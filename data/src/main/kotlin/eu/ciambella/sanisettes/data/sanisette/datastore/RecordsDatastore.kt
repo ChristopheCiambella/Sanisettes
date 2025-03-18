@@ -7,8 +7,8 @@ import eu.ciambella.sanisettes.domain.logger.LoggerProvider
 import eu.ciambella.sanisettes.domain.sanisette.model.Sanisettes
 
 class RecordsDatastore(
-    private val sanisettesParisApiService: DataRATPParisApiService,
-    private val toiletResponseMapper: RecordsResponseMapper,
+    private val dataRATPParisApiService: DataRATPParisApiService,
+    private val recordsResponseMapper: RecordsResponseMapper,
     private val locationProvider: LocationProvider,
     private val loggerProvider: LoggerProvider,
 ) {
@@ -20,13 +20,13 @@ class RecordsDatastore(
 
     suspend fun getRecords(offset: Int): Sanisettes {
         loggerProvider.i(TAG, "Requesting sanisettes with offset $offset")
-        val response = sanisettesParisApiService.getRecords(
+        val response = dataRATPParisApiService.getRecords(
             limit = LIMIT,
             offset = offset
         )
         loggerProvider.i(TAG, "Receive ${response.results.size} sanisettes")
         val currentLocation = locationProvider.getCurrentLocation()
-        return toiletResponseMapper.map(
+        return recordsResponseMapper.map(
             response = response,
             currentLocation = currentLocation,
             offset = offset
