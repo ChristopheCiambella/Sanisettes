@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main -->
+    <string name="app_name">Sanisette</string>
+    <string name="pmr">PMR</string>
+    <string name="unavailable">----</string>
+
+    <!-- Bottom Navigation Bar -->
+    <string name="bottom_menu_list">Liste</string>
+    <string name="bottom_menu_maps">Carte</string>
+
+    <!-- Error -->
+    <string name="error_title">Erreur</string>
+    <string name="error_message">Une erreur est survenue</string>
+
+    <!-- Other -->
+    <string name="start_navigation">Démarrer la navigation</string>
+
+</resources>

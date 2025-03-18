@@ -1,0 +1,7 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>LongMethod:MapsContent.kt$@Composable fun MapsContent( property: MapsContentProperty, modifier: Modifier = Modifier, )</ID>
+  </CurrentIssues>
+</SmellBaseline>
